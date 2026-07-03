@@ -1,0 +1,84 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Samsung SmartThings
+providerId: smartthings
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Smart Home
+- IoT
+- Home Automation
+- Developer Platform
+- Plans
+description: >-
+  The SmartThings developer platform is free. There is no charge to register a
+  Samsung account, generate a Personal Access Token, create OAuth-In SmartApps,
+  or call the public REST API (base https://api.smartthings.com/v1). Developers
+  build against the platform at no cost; usage is governed by per-token and
+  per-app rate limits and guardrails rather than by paid tiers. A separate
+  Enterprise API / service-account program exists for large-scale, account-level
+  integrations (for example, account-wide Eventing sinks) with its own onboarding
+  and terms. SmartThings monetizes hardware, the consumer smart-home service, and
+  partner/enterprise programs - not per-call API access.
+notes: >-
+  No published per-call price for the public API as of the review date. The
+  Enterprise API and service-account program is partner/contract-based; contact
+  SmartThings for terms. Verify current details on developer.smartthings.com.
+sources:
+- https://developer.smartthings.com/docs/getting-started/quickstart
+- https://developer.smartthings.com/docs/getting-started/rate-limits
+- https://developer.smartthings.com/docs/enterprise/enterprise-api-overview/api-features
+plans:
+- id: smartthings-developer-free
+  name: Developer (Public API)
+  type: free
+  description: >-
+    Free access to the SmartThings public REST API for personal and production
+    integrations. Authenticate with a Personal Access Token for testing or
+    OAuth 2.0 for production SmartApps. Governed by per-token and per-app rate
+    limits and guardrails, not by a paid quota.
+  entries:
+  - label: Public API Access
+    name: public_api_access
+    type: usage
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free (rate-limited)
+    userMultiplied: false
+  elements:
+  - name: Personal Access Tokens
+  - name: OAuth 2.0 SmartApps
+  - name: Devices, Locations, Rooms, Scenes, Rules APIs
+  - name: Subscriptions and Schedules
+  - name: Capabilities and Presentations
+- id: smartthings-enterprise
+  name: Enterprise API / Service Accounts
+  type: enterprise
+  description: >-
+    Partner/contract program for large-scale, account-level integrations -
+    including account-wide Eventing sinks and subscriptions and service-account
+    authentication - with dedicated onboarding, higher scale, and negotiated
+    terms. Contact SmartThings.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact SmartThings
+    userMultiplied: false
+  elements:
+  - name: Service Accounts
+  - name: Account-Level Eventing (Sinks and Subscriptions)
+  - name: Higher Scale and Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

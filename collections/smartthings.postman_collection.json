@@ -1,0 +1,442 @@
+{
+  "info": {
+    "name": "Samsung SmartThings API",
+    "description": "The SmartThings public REST API for the smart-home IoT platform. Base URL: https://api.smartthings.com/v1. Authenticate with a Personal Access Token (testing) or an OAuth 2.0 access token (production), passed as Authorization: Bearer {token}. Grounded in the official Swagger definition at https://swagger.api.smartthings.com/public/st-api.yml.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{bearerToken}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.smartthings.com/v1", "type": "string" },
+    { "key": "bearerToken", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Devices",
+      "item": [
+        {
+          "name": "List Devices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/devices", "host": ["{{baseUrl}}"], "path": ["devices"] },
+            "description": "Lists the devices accessible to the authenticated principal."
+          }
+        },
+        {
+          "name": "Install a Device",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/devices", "host": ["{{baseUrl}}"], "path": ["devices"] },
+            "description": "Installs (creates) a device."
+          }
+        },
+        {
+          "name": "Get a Device",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/devices/:deviceId", "host": ["{{baseUrl}}"], "path": ["devices", ":deviceId"], "variable": [{ "key": "deviceId", "value": "" }] },
+            "description": "Gets the description of a device."
+          }
+        },
+        {
+          "name": "Update a Device",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/devices/:deviceId", "host": ["{{baseUrl}}"], "path": ["devices", ":deviceId"], "variable": [{ "key": "deviceId", "value": "" }] },
+            "description": "Updates a device."
+          }
+        },
+        {
+          "name": "Delete a Device",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/devices/:deviceId", "host": ["{{baseUrl}}"], "path": ["devices", ":deviceId"], "variable": [{ "key": "deviceId", "value": "" }] },
+            "description": "Deletes a device."
+          }
+        },
+        {
+          "name": "Get Device Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/devices/:deviceId/health", "host": ["{{baseUrl}}"], "path": ["devices", ":deviceId", "health"], "variable": [{ "key": "deviceId", "value": "" }] },
+            "description": "Gets the health state (ONLINE/OFFLINE) of a device."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Device Commands & Status",
+      "item": [
+        {
+          "name": "Execute Commands on a Device",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"commands\": [\n    { \"component\": \"main\", \"capability\": \"switch\", \"command\": \"on\", \"arguments\": [] }\n  ]\n}" },
+            "url": { "raw": "{{baseUrl}}/devices/:deviceId/commands", "host": ["{{baseUrl}}"], "path": ["devices", ":deviceId", "commands"], "variable": [{ "key": "deviceId", "value": "" }] },
+            "description": "Executes one or more capability commands on a device (up to 10 per request)."
+          }
+        },
+        {
+          "name": "Create Device Events",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"deviceEvents\": []\n}" },
+            "url": { "raw": "{{baseUrl}}/devices/:deviceId/events", "host": ["{{baseUrl}}"], "path": ["devices", ":deviceId", "events"], "variable": [{ "key": "deviceId", "value": "" }] },
+            "description": "Creates state events for a device (up to 50 per request)."
+          }
+        },
+        {
+          "name": "Get Full Device Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/devices/:deviceId/status", "host": ["{{baseUrl}}"], "path": ["devices", ":deviceId", "status"], "variable": [{ "key": "deviceId", "value": "" }] },
+            "description": "Gets the full status of a device across all components and capabilities."
+          }
+        },
+        {
+          "name": "Get Component Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/devices/:deviceId/components/:componentId/status", "host": ["{{baseUrl}}"], "path": ["devices", ":deviceId", "components", ":componentId", "status"], "variable": [{ "key": "deviceId", "value": "" }, { "key": "componentId", "value": "main" }] },
+            "description": "Gets the status of a single device component."
+          }
+        },
+        {
+          "name": "Get Capability Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/devices/:deviceId/components/:componentId/capabilities/:capabilityId/status", "host": ["{{baseUrl}}"], "path": ["devices", ":deviceId", "components", ":componentId", "capabilities", ":capabilityId", "status"], "variable": [{ "key": "deviceId", "value": "" }, { "key": "componentId", "value": "main" }, { "key": "capabilityId", "value": "switch" }] },
+            "description": "Gets the status of a single capability on a component."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Locations",
+      "item": [
+        {
+          "name": "List Locations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/locations", "host": ["{{baseUrl}}"], "path": ["locations"] },
+            "description": "Lists locations."
+          }
+        },
+        {
+          "name": "Create a Location",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"My Home\",\n  \"countryCode\": \"USA\"\n}" },
+            "url": { "raw": "{{baseUrl}}/locations", "host": ["{{baseUrl}}"], "path": ["locations"] },
+            "description": "Creates a location."
+          }
+        },
+        {
+          "name": "Get a Location",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/locations/:locationId", "host": ["{{baseUrl}}"], "path": ["locations", ":locationId"], "variable": [{ "key": "locationId", "value": "" }] },
+            "description": "Gets a location."
+          }
+        },
+        {
+          "name": "Get Current Mode",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/locations/:locationId/modes/current", "host": ["{{baseUrl}}"], "path": ["locations", ":locationId", "modes", "current"], "variable": [{ "key": "locationId", "value": "" }] },
+            "description": "Gets a location's current mode."
+          }
+        },
+        {
+          "name": "Set Current Mode",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"modeId\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/locations/:locationId/modes/current", "host": ["{{baseUrl}}"], "path": ["locations", ":locationId", "modes", "current"], "variable": [{ "key": "locationId", "value": "" }] },
+            "description": "Changes a location's current mode."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rooms",
+      "item": [
+        {
+          "name": "List Rooms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/locations/:locationId/rooms", "host": ["{{baseUrl}}"], "path": ["locations", ":locationId", "rooms"], "variable": [{ "key": "locationId", "value": "" }] },
+            "description": "Lists the rooms in a location."
+          }
+        },
+        {
+          "name": "Create a Room",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Living Room\"\n}" },
+            "url": { "raw": "{{baseUrl}}/locations/:locationId/rooms", "host": ["{{baseUrl}}"], "path": ["locations", ":locationId", "rooms"], "variable": [{ "key": "locationId", "value": "" }] },
+            "description": "Creates a room in a location."
+          }
+        },
+        {
+          "name": "Get a Room",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/locations/:locationId/rooms/:roomId", "host": ["{{baseUrl}}"], "path": ["locations", ":locationId", "rooms", ":roomId"], "variable": [{ "key": "locationId", "value": "" }, { "key": "roomId", "value": "" }] },
+            "description": "Gets a room."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Scenes",
+      "item": [
+        {
+          "name": "List Scenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/scenes", "host": ["{{baseUrl}}"], "path": ["scenes"] },
+            "description": "Lists scenes."
+          }
+        },
+        {
+          "name": "Execute a Scene",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/scenes/:sceneId/execute", "host": ["{{baseUrl}}"], "path": ["scenes", ":sceneId", "execute"], "variable": [{ "key": "sceneId", "value": "" }] },
+            "description": "Executes a scene."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rules",
+      "item": [
+        {
+          "name": "List Rules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/rules?locationId={{locationId}}", "host": ["{{baseUrl}}"], "path": ["rules"], "query": [{ "key": "locationId", "value": "{{locationId}}" }] },
+            "description": "Lists rules for a location."
+          }
+        },
+        {
+          "name": "Create a Rule",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"My Rule\",\n  \"actions\": []\n}" },
+            "url": { "raw": "{{baseUrl}}/rules?locationId={{locationId}}", "host": ["{{baseUrl}}"], "path": ["rules"], "query": [{ "key": "locationId", "value": "{{locationId}}" }] },
+            "description": "Creates a rule."
+          }
+        },
+        {
+          "name": "Execute a Rule",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/rules/:ruleId/execute?locationId={{locationId}}", "host": ["{{baseUrl}}"], "path": ["rules", ":ruleId", "execute"], "query": [{ "key": "locationId", "value": "{{locationId}}" }], "variable": [{ "key": "ruleId", "value": "" }] },
+            "description": "Executes a rule."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Capabilities",
+      "item": [
+        {
+          "name": "List Capabilities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/capabilities", "host": ["{{baseUrl}}"], "path": ["capabilities"] },
+            "description": "Lists standard capabilities."
+          }
+        },
+        {
+          "name": "Get a Capability",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/capabilities/:capabilityId/:capabilityVersion", "host": ["{{baseUrl}}"], "path": ["capabilities", ":capabilityId", ":capabilityVersion"], "variable": [{ "key": "capabilityId", "value": "switch" }, { "key": "capabilityVersion", "value": "1" }] },
+            "description": "Gets a capability definition by id and version."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Installed Apps",
+      "item": [
+        {
+          "name": "List Installed Apps",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/installedapps", "host": ["{{baseUrl}}"], "path": ["installedapps"] },
+            "description": "Lists installed apps."
+          }
+        },
+        {
+          "name": "Get an Installed App",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/installedapps/:installedAppId", "host": ["{{baseUrl}}"], "path": ["installedapps", ":installedAppId"], "variable": [{ "key": "installedAppId", "value": "" }] },
+            "description": "Gets an installed app."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscriptions",
+      "item": [
+        {
+          "name": "List Subscriptions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/installedapps/:installedAppId/subscriptions", "host": ["{{baseUrl}}"], "path": ["installedapps", ":installedAppId", "subscriptions"], "variable": [{ "key": "installedAppId", "value": "" }] },
+            "description": "Lists an installed app's subscriptions."
+          }
+        },
+        {
+          "name": "Create a Subscription",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"sourceType\": \"CAPABILITY\",\n  \"capability\": { \"locationId\": \"\", \"capability\": \"switch\", \"attribute\": \"switch\" }\n}" },
+            "url": { "raw": "{{baseUrl}}/installedapps/:installedAppId/subscriptions", "host": ["{{baseUrl}}"], "path": ["installedapps", ":installedAppId", "subscriptions"], "variable": [{ "key": "installedAppId", "value": "" }] },
+            "description": "Creates a subscription for an installed app. Events are delivered to the app's webhook via the EVENT lifecycle callback."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Schedules",
+      "item": [
+        {
+          "name": "List Schedules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/installedapps/:installedAppId/schedules", "host": ["{{baseUrl}}"], "path": ["installedapps", ":installedAppId", "schedules"], "variable": [{ "key": "installedAppId", "value": "" }] },
+            "description": "Lists an installed app's schedules."
+          }
+        },
+        {
+          "name": "Create a Schedule",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"cron\": { \"expression\": \"0/5 * * * ? *\", \"timezone\": \"UTC\" }\n}" },
+            "url": { "raw": "{{baseUrl}}/installedapps/:installedAppId/schedules/:scheduleName", "host": ["{{baseUrl}}"], "path": ["installedapps", ":installedAppId", "schedules", ":scheduleName"], "variable": [{ "key": "installedAppId", "value": "" }, { "key": "scheduleName", "value": "every-5-min" }] },
+            "description": "Creates a schedule for an installed app."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Apps",
+      "item": [
+        {
+          "name": "List Apps",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/apps", "host": ["{{baseUrl}}"], "path": ["apps"] },
+            "description": "Lists registered SmartApps. Modeled from the public docs and SDK."
+          }
+        },
+        {
+          "name": "Get an App",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/apps/:appNameOrId", "host": ["{{baseUrl}}"], "path": ["apps", ":appNameOrId"], "variable": [{ "key": "appNameOrId", "value": "" }] },
+            "description": "Gets a SmartApp by name or id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Presentations",
+      "item": [
+        {
+          "name": "Get a Device Presentation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/presentation?presentationId={{presentationId}}", "host": ["{{baseUrl}}"], "path": ["presentation"], "query": [{ "key": "presentationId", "value": "{{presentationId}}" }] },
+            "description": "Gets a device presentation."
+          }
+        }
+      ]
+    },
+    {
+      "name": "History",
+      "item": [
+        {
+          "name": "Query Device History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/history/devices?locationId={{locationId}}", "host": ["{{baseUrl}}"], "path": ["history", "devices"], "query": [{ "key": "locationId", "value": "{{locationId}}" }] },
+            "description": "Returns the paginated device event history. Modeled from the public docs and SDK."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Virtual Devices",
+      "item": [
+        {
+          "name": "List Virtual Devices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/virtualdevices", "host": ["{{baseUrl}}"], "path": ["virtualdevices"] },
+            "description": "Lists virtual devices. Modeled from the public docs and SDK."
+          }
+        },
+        {
+          "name": "Create a Virtual Device",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/virtualdevices", "host": ["{{baseUrl}}"], "path": ["virtualdevices"] },
+            "description": "Creates a virtual device for testing."
+          }
+        }
+      ]
+    }
+  ]
+}

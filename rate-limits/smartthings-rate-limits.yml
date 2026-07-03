@@ -1,0 +1,126 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Samsung SmartThings
+providerId: smartthings
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Smart Home
+- IoT
+- Home Automation
+- Rate Limiting
+- Quotas
+- Guardrails
+description: >-
+  SmartThings publishes per-endpoint rate limits and platform "guardrails"
+  (hard resource caps). Limits are applied per authenticated principal / per
+  installed app and, for device operations, per device. Every response carries
+  X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.
+  Exceeding a rate limit returns HTTP 429 (Too Many Requests); exceeding a
+  guardrail (a hard cap such as max subscriptions per app) returns HTTP 422
+  (Unprocessable Entity). Values below are drawn from the public rate-limits
+  documentation and are approximate; confirm current numbers before relying on
+  them.
+notes: >-
+  Numbers reflect the developer.smartthings.com rate-limits page at the review
+  date and may change. The Enterprise API / service-account program documents
+  its own separate limits.
+sources:
+- https://developer.smartthings.com/docs/getting-started/rate-limits
+- https://developer.smartthings.com/docs/enterprise/api-access/service-accounts/rate-limits
+responseCodes:
+  throttled: 429
+  guardrail: 422
+headers:
+- name: X-RateLimit-Limit
+  description: Maximum number of requests allowed within the current rate-limit window.
+- name: X-RateLimit-Remaining
+  description: Number of requests remaining in the current window.
+- name: X-RateLimit-Reset
+  description: Seconds until the current rate-limit window resets.
+limits:
+- name: Devices - Get State / Send Commands / Create Events
+  scope: device
+  metric: requests
+  limit: 12 per minute per device
+  notes: Max 10 commands per command request; max 50 state events per events request.
+- name: Devices - Cloud-Connected per Installed App
+  scope: installedApp
+  metric: devices
+  limit: 30 (guardrail)
+  notes: Maximum cloud-connected devices an installed app may create.
+- name: Locations - Get / List
+  scope: account
+  metric: requests
+  limit: 100 per minute
+- name: Locations - Create / Delete
+  scope: account
+  metric: requests
+  limit: 50 per hour
+- name: Locations - Update
+  scope: account
+  metric: requests
+  limit: 20 per hour
+- name: Subscriptions - Create
+  scope: installedApp
+  metric: requests
+  limit: 40 every 15 minutes
+- name: Subscriptions - Other Operations
+  scope: installedApp
+  metric: requests
+  limit: 15 every 15 minutes
+- name: Subscriptions per Installed App
+  scope: installedApp
+  metric: subscriptions
+  limit: 40 (guardrail)
+  notes: Maximum event size is approximately 10 KiB.
+- name: Schedules - Create (POST)
+  scope: installedApp
+  metric: requests
+  limit: 12 per minute
+- name: Schedules - All Operations
+  scope: installedApp
+  metric: requests
+  limit: 20 every 6 minutes
+- name: Schedules per Installed App
+  scope: installedApp
+  metric: schedules
+  limit: 6 (guardrail)
+- name: Apps / Installed Apps
+  scope: account
+  metric: requests
+  limit: 60 per minute
+  notes: Max ~35 active apps per type per user; ~100 total per type (guardrails).
+- name: Lifecycle / Execute Events
+  scope: installedApp
+  metric: requests
+  limit: 20 per minute
+  notes: Applies to EVENT, UPDATE, INSTALL, UNINSTALL, CONFIGURATION, OAUTH_CALLBACK, EXECUTE, and PING.
+- name: Rules - Installed per User / per Installed App
+  scope: account
+  metric: rules
+  limit: 100 per user, 50 per installed app (guardrails)
+- name: Capabilities / Device Profiles - Get by Id
+  scope: account
+  metric: requests
+  limit: 15 per minute
+- name: Device Profiles - General
+  scope: account
+  metric: requests
+  limit: 120 per minute
+- name: Modes
+  scope: location
+  metric: requests
+  limit: 100-200 per minute depending on operation
+policies:
+- name: Rate Limit Response
+  description: Requests exceeding a rate limit receive HTTP 429 (Too Many Requests).
+- name: Guardrail Response
+  description: Requests that would exceed a hard resource cap (guardrail) receive HTTP 422 (Unprocessable Entity).
+- name: Backoff Strategy
+  description: Clients should read the X-RateLimit-Reset header and implement exponential backoff with jitter on 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

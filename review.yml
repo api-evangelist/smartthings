@@ -1,0 +1,173 @@
+aid: smartthings
+name: Samsung SmartThings
+review:
+  question: Does SmartThings expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-03'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. SmartThings' documented public API is a
+    request/response REST API (base https://api.smartthings.com/v1). Its
+    server-push / eventing surface is not a WebSocket and not an HTTP SSE stream
+    either - events are delivered outbound as HTTP webhook callbacks to a
+    developer-hosted endpoint (a SmartApp's EVENT lifecycle callback, or the
+    Enterprise Eventing API's account-level "sinks"). There is no server-push
+    channel on SmartThings' own API endpoint to model as AsyncAPI; the transport
+    that carries events is the developer's own webhook receiver.
+findings:
+  summary: |
+    SmartThings does not publish a documented public WebSocket API. The
+    SmartThings platform exposes a RESTful HTTPS API at
+    https://api.smartthings.com/v1, authenticated with a Personal Access Token
+    (PAT) for testing or OAuth 2.0 for production, and passed as
+    `Authorization: Bearer {token}`. It publishes a real OpenAPI/Swagger
+    definition at https://swagger.api.smartthings.com/public/st-api.yml.
+    Real-time device events are delivered push-style over HTTP webhooks, not
+    WebSocket: a SmartApp (a registered WEBHOOK_SMART_APP or LAMBDA_SMART_APP)
+    creates Subscriptions and then receives matching events via the EVENT
+    lifecycle callback POSTed to its endpoint, and the Enterprise Eventing API
+    lets service accounts register account-level webhook "sinks" with
+    subscriptions. An unofficial community WebSocket library (smart-events)
+    exists that uses undocumented endpoints, but it is explicitly not
+    production-ready and is not part of the documented public API. No official
+    ws:// or wss:// endpoint is documented.
+  openSource: |
+    SmartThings itself is a proprietary Samsung platform, but the developer
+    tooling and SDKs are open source under the SmartThingsCommunity GitHub
+    organization (github.com/SmartThingsCommunity) - including the CLI, the
+    core Node.js SDK (smartthings-core-sdk), Edge device drivers, and SmartApp
+    SDKs. The API itself is grounded in a published Swagger/OpenAPI definition.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.smartthings.com/v1
+      documented: true
+      note: The core public API - devices, commands/status, locations, rooms, modes, scenes, rules, capabilities, apps, installed apps, subscriptions, schedules, presentations.
+    - protocol: OAuth
+      scheme: https
+      baseURL: https://api.smartthings.com/oauth
+      documented: true
+      note: OAuth 2.0 authorization code flow (/oauth/authorize, /oauth/token) for production integrations. PAT available for testing.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Primary eventing transport. SmartApp EVENT lifecycle callbacks and Enterprise Eventing API "sinks" POST events to a developer-hosted HTTPS endpoint. Outbound HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No official WebSocket endpoint is documented. An unofficial community library (smart-events) uses undocumented WS endpoints and is not production-ready.
+  endpointsConfirmedRest:
+    - GET    https://api.smartthings.com/v1/devices
+    - POST   https://api.smartthings.com/v1/devices
+    - GET    https://api.smartthings.com/v1/devices/{deviceId}
+    - PUT    https://api.smartthings.com/v1/devices/{deviceId}
+    - DELETE https://api.smartthings.com/v1/devices/{deviceId}
+    - POST   https://api.smartthings.com/v1/devices/{deviceId}/commands
+    - POST   https://api.smartthings.com/v1/devices/{deviceId}/events
+    - GET    https://api.smartthings.com/v1/devices/{deviceId}/status
+    - GET    https://api.smartthings.com/v1/devices/{deviceId}/components/{componentId}/status
+    - GET    https://api.smartthings.com/v1/devices/{deviceId}/components/{componentId}/capabilities/{capabilityId}/status
+    - GET    https://api.smartthings.com/v1/devices/{deviceId}/health
+    - GET    https://api.smartthings.com/v1/locations
+    - POST   https://api.smartthings.com/v1/locations
+    - GET    https://api.smartthings.com/v1/locations/{locationId}
+    - PUT    https://api.smartthings.com/v1/locations/{locationId}
+    - PATCH  https://api.smartthings.com/v1/locations/{locationId}
+    - DELETE https://api.smartthings.com/v1/locations/{locationId}
+    - GET    https://api.smartthings.com/v1/locations/{locationId}/rooms
+    - POST   https://api.smartthings.com/v1/locations/{locationId}/rooms
+    - GET    https://api.smartthings.com/v1/locations/{locationId}/rooms/{roomId}
+    - PUT    https://api.smartthings.com/v1/locations/{locationId}/rooms/{roomId}
+    - DELETE https://api.smartthings.com/v1/locations/{locationId}/rooms/{roomId}
+    - GET    https://api.smartthings.com/v1/locations/{locationId}/modes
+    - POST   https://api.smartthings.com/v1/locations/{locationId}/modes
+    - GET    https://api.smartthings.com/v1/locations/{locationId}/modes/current
+    - PUT    https://api.smartthings.com/v1/locations/{locationId}/modes/current
+    - GET    https://api.smartthings.com/v1/scenes
+    - POST   https://api.smartthings.com/v1/scenes
+    - GET    https://api.smartthings.com/v1/scenes/{sceneId}
+    - PUT    https://api.smartthings.com/v1/scenes/{sceneId}
+    - DELETE https://api.smartthings.com/v1/scenes/{sceneId}
+    - POST   https://api.smartthings.com/v1/scenes/{sceneId}/execute
+    - GET    https://api.smartthings.com/v1/rules
+    - POST   https://api.smartthings.com/v1/rules
+    - GET    https://api.smartthings.com/v1/rules/{ruleId}
+    - PUT    https://api.smartthings.com/v1/rules/{ruleId}
+    - DELETE https://api.smartthings.com/v1/rules/{ruleId}
+    - POST   https://api.smartthings.com/v1/rules/{ruleId}/execute
+    - GET    https://api.smartthings.com/v1/capabilities
+    - GET    https://api.smartthings.com/v1/capabilities/{capabilityId}/{capabilityVersion}
+    - GET    https://api.smartthings.com/v1/installedapps
+    - GET    https://api.smartthings.com/v1/installedapps/{installedAppId}
+    - DELETE https://api.smartthings.com/v1/installedapps/{installedAppId}
+    - GET    https://api.smartthings.com/v1/installedapps/{installedAppId}/configs
+    - POST   https://api.smartthings.com/v1/installedapps/{installedAppId}/events
+    - GET    https://api.smartthings.com/v1/installedapps/{installedAppId}/subscriptions
+    - POST   https://api.smartthings.com/v1/installedapps/{installedAppId}/subscriptions
+    - GET    https://api.smartthings.com/v1/installedapps/{installedAppId}/schedules
+    - POST   https://api.smartthings.com/v1/installedapps/{installedAppId}/schedules/{scheduleName}
+    - DELETE https://api.smartthings.com/v1/installedapps/{installedAppId}/schedules/{scheduleName}
+    - GET    https://api.smartthings.com/v1/deviceprofiles
+    - POST   https://api.smartthings.com/v1/deviceprofiles
+    - GET    https://api.smartthings.com/v1/presentation
+    - GET    https://api.smartthings.com/v1/presentation/deviceconfig
+    - POST   https://api.smartthings.com/v1/presentation/deviceconfig
+  endpointsModeled:
+    - GET    https://api.smartthings.com/v1/apps
+    - POST   https://api.smartthings.com/v1/apps
+    - GET    https://api.smartthings.com/v1/apps/{appNameOrId}
+    - PUT    https://api.smartthings.com/v1/apps/{appNameOrId}
+    - DELETE https://api.smartthings.com/v1/apps/{appNameOrId}
+    - GET    https://api.smartthings.com/v1/history/devices
+    - GET    https://api.smartthings.com/v1/virtualdevices
+    - POST   https://api.smartthings.com/v1/virtualdevices
+    - POST   https://api.smartthings.com/v1/virtualdevices/{deviceId}/events
+    - GET    https://api.smartthings.com/v1/installedapps/{installedAppId}/subscriptions/{subscriptionId}
+    - DELETE https://api.smartthings.com/v1/installedapps/{installedAppId}/subscriptions/{subscriptionId}
+    - DELETE https://api.smartthings.com/v1/installedapps/{installedAppId}/subscriptions
+  modeledNote: |
+    endpointsConfirmedRest were verified against the official SmartThings
+    Swagger definition (swagger.api.smartthings.com/public/st-api.yml) and the
+    developer docs. endpointsModeled are grounded in the public docs and the
+    smartthings-core-sdk (which documents Apps, History, and Virtual Devices
+    resource groups) but their exact path shapes were inferred rather than read
+    field-by-field from the Swagger file during this review; treat them as
+    modeled until reconciled.
+sources:
+  - url: https://developer.smartthings.com/docs/api/public
+    type: APIReference
+    note: Public API reference. Base https://api.smartthings.com/v1; all REST. No WebSocket.
+  - url: https://swagger.api.smartthings.com/public/st-api.yml
+    type: OpenAPI
+    note: Official Swagger/OpenAPI definition of the public API. Source of the confirmed endpoint list.
+  - url: https://developer.smartthings.com/docs/getting-started/quickstart
+    type: Documentation
+    note: Confirms base URL, PAT auth, and OAuth 2.0 /oauth/authorize and /oauth/token endpoints.
+  - url: https://developer.smartthings.com/docs/getting-started/rate-limits
+    type: Documentation
+    note: Per-endpoint rate limits and guardrails; X-RateLimit-* headers; 429 (rate limit) and 422 (guardrail).
+  - url: https://developer.smartthings.com/docs/connected-services/lifecycles
+    type: Documentation
+    note: SmartApp lifecycle (PING, CONFIGURATION, INSTALL, UPDATE, EVENT, UNINSTALL). Events delivered via EVENT webhook callback.
+  - url: https://developer.smartthings.com/docs/enterprise/enterprise-api-overview/eventing/overview
+    type: Documentation
+    note: Enterprise Eventing API - account-level webhook sinks + subscriptions. HTTP webhook delivery, not WebSocket.
+  - url: https://github.com/SmartThingsCommunity/smartthings-core-sdk
+    type: SourceCode
+    note: Open-source Node SDK enumerating resource groups (Devices, Locations, Rooms, Scenes, Rules, Apps, InstalledApps, Subscriptions, Schedules, Capabilities, Presentation, History, Virtual Devices, etc).
+  - url: https://github.com/401Unauthorized/smart-events
+    type: SourceCode
+    note: Unofficial, alpha, non-production community WebSocket library using undocumented endpoints. Not part of the documented public API.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No documented public WebSocket surface exists, and SmartThings' own API is
+    request/response REST. Its eventing is outbound HTTP webhooks (SmartApp
+    EVENT callbacks and Enterprise Eventing sinks) delivered to
+    developer-hosted endpoints, so there is no server-push channel on
+    SmartThings' own API to model as AsyncAPI. No AsyncAPI document was created.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

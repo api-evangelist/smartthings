@@ -1,0 +1,415 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Samsung SmartThings API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Devices", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Devices.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartthings.com/v1/devices" },
+          "docs": "Lists the devices accessible to the authenticated principal."
+        },
+        {
+          "info": { "name": "Install a Device.", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.smartthings.com/v1/devices", "body": { "type": "json", "data": "{}" } },
+          "docs": "Installs (creates) a device."
+        },
+        {
+          "info": { "name": "Get a Device.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId",
+            "params": [ { "name": "deviceId", "value": "", "type": "path", "description": "The device identifier." } ]
+          },
+          "docs": "Gets the description of a device."
+        },
+        {
+          "info": { "name": "Update a Device.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId",
+            "params": [ { "name": "deviceId", "value": "", "type": "path", "description": "The device identifier." } ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates a device."
+        },
+        {
+          "info": { "name": "Delete a Device.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId",
+            "params": [ { "name": "deviceId", "value": "", "type": "path", "description": "The device identifier." } ]
+          },
+          "docs": "Deletes a device."
+        },
+        {
+          "info": { "name": "Get Device Health.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/health",
+            "params": [ { "name": "deviceId", "value": "", "type": "path", "description": "The device identifier." } ]
+          },
+          "docs": "Gets the health state (ONLINE/OFFLINE) of a device."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Device Commands & Status", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Execute Commands on a Device.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/commands",
+            "params": [ { "name": "deviceId", "value": "", "type": "path", "description": "The device identifier." } ],
+            "body": { "type": "json", "data": "{\n  \"commands\": [\n    { \"component\": \"main\", \"capability\": \"switch\", \"command\": \"on\", \"arguments\": [] }\n  ]\n}" }
+          },
+          "docs": "Executes one or more capability commands on a device (up to 10 per request)."
+        },
+        {
+          "info": { "name": "Create Device Events.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/events",
+            "params": [ { "name": "deviceId", "value": "", "type": "path", "description": "The device identifier." } ],
+            "body": { "type": "json", "data": "{\n  \"deviceEvents\": []\n}" }
+          },
+          "docs": "Creates state events for a device (up to 50 per request)."
+        },
+        {
+          "info": { "name": "Get Full Device Status.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/status",
+            "params": [ { "name": "deviceId", "value": "", "type": "path", "description": "The device identifier." } ]
+          },
+          "docs": "Gets the full status of a device across all components and capabilities."
+        },
+        {
+          "info": { "name": "Get Component Status.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/components/:componentId/status",
+            "params": [
+              { "name": "deviceId", "value": "", "type": "path", "description": "The device identifier." },
+              { "name": "componentId", "value": "main", "type": "path", "description": "The component identifier." }
+            ]
+          },
+          "docs": "Gets the status of a single device component."
+        },
+        {
+          "info": { "name": "Get Capability Status.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/components/:componentId/capabilities/:capabilityId/status",
+            "params": [
+              { "name": "deviceId", "value": "", "type": "path", "description": "The device identifier." },
+              { "name": "componentId", "value": "main", "type": "path", "description": "The component identifier." },
+              { "name": "capabilityId", "value": "switch", "type": "path", "description": "The capability identifier." }
+            ]
+          },
+          "docs": "Gets the status of a single capability on a component."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Locations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Locations.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartthings.com/v1/locations" },
+          "docs": "Lists locations."
+        },
+        {
+          "info": { "name": "Create a Location.", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.smartthings.com/v1/locations", "body": { "type": "json", "data": "{\n  \"name\": \"My Home\",\n  \"countryCode\": \"USA\"\n}" } },
+          "docs": "Creates a location."
+        },
+        {
+          "info": { "name": "Get a Location.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/locations/:locationId",
+            "params": [ { "name": "locationId", "value": "", "type": "path", "description": "The location identifier." } ]
+          },
+          "docs": "Gets a location."
+        },
+        {
+          "info": { "name": "Get Current Mode.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/locations/:locationId/modes/current",
+            "params": [ { "name": "locationId", "value": "", "type": "path", "description": "The location identifier." } ]
+          },
+          "docs": "Gets a location's current mode."
+        },
+        {
+          "info": { "name": "Set Current Mode.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.smartthings.com/v1/locations/:locationId/modes/current",
+            "params": [ { "name": "locationId", "value": "", "type": "path", "description": "The location identifier." } ],
+            "body": { "type": "json", "data": "{\n  \"modeId\": \"\"\n}" }
+          },
+          "docs": "Changes a location's current mode."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Rooms", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Rooms.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/locations/:locationId/rooms",
+            "params": [ { "name": "locationId", "value": "", "type": "path", "description": "The location identifier." } ]
+          },
+          "docs": "Lists the rooms in a location."
+        },
+        {
+          "info": { "name": "Create a Room.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/locations/:locationId/rooms",
+            "params": [ { "name": "locationId", "value": "", "type": "path", "description": "The location identifier." } ],
+            "body": { "type": "json", "data": "{\n  \"name\": \"Living Room\"\n}" }
+          },
+          "docs": "Creates a room in a location."
+        },
+        {
+          "info": { "name": "Get a Room.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/locations/:locationId/rooms/:roomId",
+            "params": [
+              { "name": "locationId", "value": "", "type": "path", "description": "The location identifier." },
+              { "name": "roomId", "value": "", "type": "path", "description": "The room identifier." }
+            ]
+          },
+          "docs": "Gets a room."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Scenes", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Scenes.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartthings.com/v1/scenes" },
+          "docs": "Lists scenes."
+        },
+        {
+          "info": { "name": "Execute a Scene.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/scenes/:sceneId/execute",
+            "params": [ { "name": "sceneId", "value": "", "type": "path", "description": "The scene identifier." } ]
+          },
+          "docs": "Executes a scene."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Rules", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Rules.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/rules?locationId={{locationId}}",
+            "params": [ { "name": "locationId", "value": "", "type": "query", "description": "The location identifier." } ]
+          },
+          "docs": "Lists rules for a location."
+        },
+        {
+          "info": { "name": "Create a Rule.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/rules?locationId={{locationId}}",
+            "params": [ { "name": "locationId", "value": "", "type": "query", "description": "The location identifier." } ],
+            "body": { "type": "json", "data": "{\n  \"name\": \"My Rule\",\n  \"actions\": []\n}" }
+          },
+          "docs": "Creates a rule."
+        },
+        {
+          "info": { "name": "Execute a Rule.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/rules/:ruleId/execute?locationId={{locationId}}",
+            "params": [
+              { "name": "ruleId", "value": "", "type": "path", "description": "The rule identifier." },
+              { "name": "locationId", "value": "", "type": "query", "description": "The location identifier." }
+            ]
+          },
+          "docs": "Executes a rule."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Capabilities", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Capabilities.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartthings.com/v1/capabilities" },
+          "docs": "Lists standard capabilities."
+        },
+        {
+          "info": { "name": "Get a Capability.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/capabilities/:capabilityId/:capabilityVersion",
+            "params": [
+              { "name": "capabilityId", "value": "switch", "type": "path", "description": "The capability identifier." },
+              { "name": "capabilityVersion", "value": "1", "type": "path", "description": "The capability version." }
+            ]
+          },
+          "docs": "Gets a capability definition by id and version."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Installed Apps", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Installed Apps.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartthings.com/v1/installedapps" },
+          "docs": "Lists installed apps."
+        },
+        {
+          "info": { "name": "Get an Installed App.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId",
+            "params": [ { "name": "installedAppId", "value": "", "type": "path", "description": "The installed app identifier." } ]
+          },
+          "docs": "Gets an installed app."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Subscriptions", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Subscriptions.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/subscriptions",
+            "params": [ { "name": "installedAppId", "value": "", "type": "path", "description": "The installed app identifier." } ]
+          },
+          "docs": "Lists an installed app's subscriptions."
+        },
+        {
+          "info": { "name": "Create a Subscription.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/subscriptions",
+            "params": [ { "name": "installedAppId", "value": "", "type": "path", "description": "The installed app identifier." } ],
+            "body": { "type": "json", "data": "{\n  \"sourceType\": \"CAPABILITY\",\n  \"capability\": { \"locationId\": \"\", \"capability\": \"switch\", \"attribute\": \"switch\" }\n}" }
+          },
+          "docs": "Creates a subscription. Events are delivered to the app's webhook via the EVENT lifecycle callback (not a WebSocket)."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Schedules", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Schedules.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/schedules",
+            "params": [ { "name": "installedAppId", "value": "", "type": "path", "description": "The installed app identifier." } ]
+          },
+          "docs": "Lists an installed app's schedules."
+        },
+        {
+          "info": { "name": "Create a Schedule.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/schedules/:scheduleName",
+            "params": [
+              { "name": "installedAppId", "value": "", "type": "path", "description": "The installed app identifier." },
+              { "name": "scheduleName", "value": "every-5-min", "type": "path", "description": "The schedule name." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"cron\": { \"expression\": \"0/5 * * * ? *\", \"timezone\": \"UTC\" }\n}" }
+          },
+          "docs": "Creates a schedule for an installed app."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Apps", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Apps.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartthings.com/v1/apps" },
+          "docs": "Lists registered SmartApps. Modeled from the public docs and SDK."
+        },
+        {
+          "info": { "name": "Get an App.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/apps/:appNameOrId",
+            "params": [ { "name": "appNameOrId", "value": "", "type": "path", "description": "The app name or id." } ]
+          },
+          "docs": "Gets a SmartApp by name or id."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Presentations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get a Device Presentation.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/presentation?presentationId={{presentationId}}",
+            "params": [ { "name": "presentationId", "value": "", "type": "query", "description": "The presentation identifier." } ]
+          },
+          "docs": "Gets a device presentation."
+        }
+      ]
+    },
+    {
+      "info": { "name": "History", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Query Device History.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/history/devices?locationId={{locationId}}",
+            "params": [ { "name": "locationId", "value": "", "type": "query", "description": "The location identifier." } ]
+          },
+          "docs": "Returns the paginated device event history. Modeled from the public docs and SDK."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Virtual Devices", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Virtual Devices.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartthings.com/v1/virtualdevices" },
+          "docs": "Lists virtual devices. Modeled from the public docs and SDK."
+        },
+        {
+          "info": { "name": "Create a Virtual Device.", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.smartthings.com/v1/virtualdevices", "body": { "type": "json", "data": "{}" } },
+          "docs": "Creates a virtual device for testing."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
