@@ -1,0 +1,27 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/smartthings-openapi.yml
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: 'A Personal Access Token (PAT) from https://account.smartthings.com/tokens or
+    an OAuth 2.0 access token, passed as `Authorization: Bearer {token}`.'
+  sources:
+  - openapi/smartthings-openapi.yml
+- name: oauth2
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api.smartthings.com/oauth/authorize
+    tokenUrl: https://api.smartthings.com/oauth/token
+    scopes: 8
+  description: OAuth 2.0 authorization code flow for production integrations.
+  sources:
+  - openapi/smartthings-openapi.yml

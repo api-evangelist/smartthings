@@ -343,6 +343,10 @@ apis:
     devices with prototype or standard profiles used for testing automations and
     integrations without physical hardware.
 common:
+- type: VulnerabilityDisclosure
+  url: security/smartthings-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/smartthings-domain-security.yml
 - type: Authentication
   url: authentication/smartthings-authentication.yml
 - type: OAuthScopes
