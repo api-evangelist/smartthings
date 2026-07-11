@@ -343,6 +343,10 @@ apis:
     devices with prototype or standard profiles used for testing automations and
     integrations without physical hardware.
 common:
+- type: Authentication
+  url: authentication/smartthings-authentication.yml
+- type: OAuthScopes
+  url: scopes/smartthings-scopes.yml
 - type: GitHubOrganization
   url: https://github.com/SmartThingsCommunity
 - type: LinkedIn

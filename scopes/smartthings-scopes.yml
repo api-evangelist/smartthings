@@ -1,0 +1,60 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/smartthings-openapi.yml
+schemes:
+- name: oauth2
+  source: openapi/smartthings-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api.smartthings.com/oauth/authorize
+    tokenUrl: https://api.smartthings.com/oauth/token
+  description: OAuth 2.0 authorization code flow for production integrations.
+scopes:
+- scope: r:devices:*
+  description: Read devices
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/smartthings-openapi.yml
+- scope: r:locations:*
+  description: Read locations
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/smartthings-openapi.yml
+- scope: r:rules:*
+  description: Read rules
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/smartthings-openapi.yml
+- scope: r:scenes:*
+  description: Read scenes
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/smartthings-openapi.yml
+- scope: w:locations:*
+  description: Manage locations
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/smartthings-openapi.yml
+- scope: w:rules:*
+  description: Manage rules
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/smartthings-openapi.yml
+- scope: x:devices:*
+  description: Control devices
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/smartthings-openapi.yml
+- scope: x:scenes:*
+  description: Execute scenes
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/smartthings-openapi.yml
