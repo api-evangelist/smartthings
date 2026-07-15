@@ -343,6 +343,8 @@ apis:
     devices with prototype or standard profiles used for testing automations and
     integrations without physical hardware.
 common:
+- type: AgenticAccess
+  url: agentic-access/smartthings-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/smartthings-vulnerability-disclosure.yml
 - type: DomainSecurity
