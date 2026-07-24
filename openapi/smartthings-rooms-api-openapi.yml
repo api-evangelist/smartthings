@@ -1,0 +1,191 @@
+openapi: 3.0.3
+info:
+  title: Samsung SmartThings Apps Rooms API
+  description: 'The SmartThings API is the RESTful core of the SmartThings smart-home IoT platform. It is used to control devices, read device status, manage Locations, Rooms, and Modes, build Automations with Rules and Scenes, inspect Capabilities, and build SmartApps (Apps and Installed Apps) that subscribe to events and run Schedules. Requests are authenticated with a Personal Access Token (PAT) for testing or an OAuth 2.0 access token for production integrations, passed as `Authorization: Bearer {token}`. This document is grounded in the official SmartThings Swagger definition (https://swagger.api.smartthings.com/public/st-api.yml); some less-common endpoints (Apps, History, Virtual Devices, individual Subscription operations) are modeled from the public docs and SDK where a full path was not directly confirmed.'
+  version: '1.0'
+  contact:
+    name: SmartThings Developers
+    url: https://developer.smartthings.com
+servers:
+- url: https://api.smartthings.com/v1
+  description: SmartThings Cloud API
+security:
+- bearerAuth: []
+- oauth2: []
+tags:
+- name: Rooms
+  description: Groupings of devices within a Location.
+paths:
+  /locations/{locationId}/rooms:
+    parameters:
+    - $ref: '#/components/parameters/LocationId'
+    get:
+      operationId: listRooms
+      tags:
+      - Rooms
+      summary: List Rooms
+      responses:
+        '200':
+          description: A list of rooms in the location.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Room'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createRoom
+      tags:
+      - Rooms
+      summary: Create a Room
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoomInput'
+      responses:
+        '200':
+          description: The created room.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /locations/{locationId}/rooms/{roomId}:
+    parameters:
+    - $ref: '#/components/parameters/LocationId'
+    - name: roomId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getRoom
+      tags:
+      - Rooms
+      summary: Get a Room
+      responses:
+        '200':
+          description: The room.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateRoom
+      tags:
+      - Rooms
+      summary: Update a Room
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoomInput'
+      responses:
+        '200':
+          description: The updated room.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteRoom
+      tags:
+      - Rooms
+      summary: Delete a Room
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    LocationId:
+      name: locationId
+      in: path
+      required: true
+      description: The identifier of the location.
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      properties:
+        requestId:
+          type: string
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+    RoomInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+    Room:
+      type: object
+      properties:
+        roomId:
+          type: string
+        locationId:
+          type: string
+        name:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'A Personal Access Token (PAT) from https://account.smartthings.com/tokens or an OAuth 2.0 access token, passed as `Authorization: Bearer {token}`.'
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authorization code flow for production integrations.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.smartthings.com/oauth/authorize
+          tokenUrl: https://api.smartthings.com/oauth/token
+          scopes:
+            r:devices:*: Read devices
+            x:devices:*: Control devices
+            r:locations:*: Read locations
+            w:locations:*: Manage locations
+            r:scenes:*: Read scenes
+            x:scenes:*: Execute scenes
+            r:rules:*: Read rules
+            w:rules:*: Manage rules

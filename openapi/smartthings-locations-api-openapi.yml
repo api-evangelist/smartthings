@@ -1,0 +1,292 @@
+openapi: 3.0.3
+info:
+  title: Samsung SmartThings Apps Locations API
+  description: 'The SmartThings API is the RESTful core of the SmartThings smart-home IoT platform. It is used to control devices, read device status, manage Locations, Rooms, and Modes, build Automations with Rules and Scenes, inspect Capabilities, and build SmartApps (Apps and Installed Apps) that subscribe to events and run Schedules. Requests are authenticated with a Personal Access Token (PAT) for testing or an OAuth 2.0 access token for production integrations, passed as `Authorization: Bearer {token}`. This document is grounded in the official SmartThings Swagger definition (https://swagger.api.smartthings.com/public/st-api.yml); some less-common endpoints (Apps, History, Virtual Devices, individual Subscription operations) are modeled from the public docs and SDK where a full path was not directly confirmed.'
+  version: '1.0'
+  contact:
+    name: SmartThings Developers
+    url: https://developer.smartthings.com
+servers:
+- url: https://api.smartthings.com/v1
+  description: SmartThings Cloud API
+security:
+- bearerAuth: []
+- oauth2: []
+tags:
+- name: Locations
+  description: Locations (homes) and their Modes.
+paths:
+  /locations:
+    get:
+      operationId: listLocations
+      tags:
+      - Locations
+      summary: List Locations
+      responses:
+        '200':
+          description: A list of locations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Location'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createLocation
+      tags:
+      - Locations
+      summary: Create a Location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationInput'
+      responses:
+        '200':
+          description: The created location.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /locations/{locationId}:
+    parameters:
+    - $ref: '#/components/parameters/LocationId'
+    get:
+      operationId: getLocation
+      tags:
+      - Locations
+      summary: Get a Location
+      responses:
+        '200':
+          description: The location.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateLocation
+      tags:
+      - Locations
+      summary: Update a Location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationInput'
+      responses:
+        '200':
+          description: The updated location.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: patchLocation
+      tags:
+      - Locations
+      summary: Patch a Location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The patched location.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteLocation
+      tags:
+      - Locations
+      summary: Delete a Location
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /locations/{locationId}/modes:
+    parameters:
+    - $ref: '#/components/parameters/LocationId'
+    get:
+      operationId: listModes
+      tags:
+      - Locations
+      summary: Get the Modes of a Location
+      responses:
+        '200':
+          description: The modes of the location.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createMode
+      tags:
+      - Locations
+      summary: Create a Mode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                label:
+                  type: string
+      responses:
+        '200':
+          description: The created mode.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /locations/{locationId}/modes/current:
+    parameters:
+    - $ref: '#/components/parameters/LocationId'
+    get:
+      operationId: getCurrentMode
+      tags:
+      - Locations
+      summary: Get a Location's Current Mode
+      responses:
+        '200':
+          description: The current mode.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: setCurrentMode
+      tags:
+      - Locations
+      summary: Change a Location's Current Mode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                modeId:
+                  type: string
+      responses:
+        '200':
+          description: The updated current mode.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    LocationId:
+      name: locationId
+      in: path
+      required: true
+      description: The identifier of the location.
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      properties:
+        requestId:
+          type: string
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+    LocationInput:
+      type: object
+      required:
+      - name
+      - countryCode
+      properties:
+        name:
+          type: string
+        countryCode:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        temperatureScale:
+          type: string
+    Location:
+      type: object
+      properties:
+        locationId:
+          type: string
+        name:
+          type: string
+        countryCode:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        temperatureScale:
+          type: string
+        timeZoneId:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: The request violated a platform guardrail or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'A Personal Access Token (PAT) from https://account.smartthings.com/tokens or an OAuth 2.0 access token, passed as `Authorization: Bearer {token}`.'
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authorization code flow for production integrations.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.smartthings.com/oauth/authorize
+          tokenUrl: https://api.smartthings.com/oauth/token
+          scopes:
+            r:devices:*: Read devices
+            x:devices:*: Control devices
+            r:locations:*: Read locations
+            w:locations:*: Manage locations
+            r:scenes:*: Read scenes
+            x:scenes:*: Execute scenes
+            r:rules:*: Read rules
+            w:rules:*: Manage rules

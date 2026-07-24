@@ -1,0 +1,199 @@
+openapi: 3.0.3
+info:
+  title: Samsung SmartThings Apps Subscriptions API
+  description: 'The SmartThings API is the RESTful core of the SmartThings smart-home IoT platform. It is used to control devices, read device status, manage Locations, Rooms, and Modes, build Automations with Rules and Scenes, inspect Capabilities, and build SmartApps (Apps and Installed Apps) that subscribe to events and run Schedules. Requests are authenticated with a Personal Access Token (PAT) for testing or an OAuth 2.0 access token for production integrations, passed as `Authorization: Bearer {token}`. This document is grounded in the official SmartThings Swagger definition (https://swagger.api.smartthings.com/public/st-api.yml); some less-common endpoints (Apps, History, Virtual Devices, individual Subscription operations) are modeled from the public docs and SDK where a full path was not directly confirmed.'
+  version: '1.0'
+  contact:
+    name: SmartThings Developers
+    url: https://developer.smartthings.com
+servers:
+- url: https://api.smartthings.com/v1
+  description: SmartThings Cloud API
+security:
+- bearerAuth: []
+- oauth2: []
+tags:
+- name: Subscriptions
+  description: Event subscriptions for Installed Apps.
+paths:
+  /installedapps/{installedAppId}/subscriptions:
+    parameters:
+    - $ref: '#/components/parameters/InstalledAppId'
+    get:
+      operationId: listSubscriptions
+      tags:
+      - Subscriptions
+      summary: List an Installed App's Subscriptions
+      responses:
+        '200':
+          description: A list of subscriptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Subscription'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createSubscription
+      tags:
+      - Subscriptions
+      summary: Create a Subscription for an Installed App
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subscription'
+      responses:
+        '200':
+          description: The created subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteAllSubscriptions
+      tags:
+      - Subscriptions
+      summary: Delete All of an Installed App's Subscriptions
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /installedapps/{installedAppId}/subscriptions/{subscriptionId}:
+    parameters:
+    - $ref: '#/components/parameters/InstalledAppId'
+    - name: subscriptionId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getSubscription
+      tags:
+      - Subscriptions
+      summary: Get a Subscription
+      responses:
+        '200':
+          description: The subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteSubscription
+      tags:
+      - Subscriptions
+      summary: Delete a Subscription
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    InstalledAppId:
+      name: installedAppId
+      in: path
+      required: true
+      description: The identifier of the installed app.
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      properties:
+        requestId:
+          type: string
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+        installedAppId:
+          type: string
+        sourceType:
+          type: string
+          enum:
+          - DEVICE
+          - CAPABILITY
+          - MODE
+          - DEVICE_LIFECYCLE
+          - DEVICE_HEALTH
+          - HUB_HEALTH
+          - SCENE_LIFECYCLE
+          - SECURITY_ARM_STATE
+        device:
+          type: object
+          additionalProperties: true
+        capability:
+          type: object
+          additionalProperties: true
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: The request violated a platform guardrail or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'A Personal Access Token (PAT) from https://account.smartthings.com/tokens or an OAuth 2.0 access token, passed as `Authorization: Bearer {token}`.'
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authorization code flow for production integrations.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.smartthings.com/oauth/authorize
+          tokenUrl: https://api.smartthings.com/oauth/token
+          scopes:
+            r:devices:*: Read devices
+            x:devices:*: Control devices
+            r:locations:*: Read locations
+            w:locations:*: Manage locations
+            r:scenes:*: Read scenes
+            x:scenes:*: Execute scenes
+            r:rules:*: Read rules
+            w:rules:*: Manage rules

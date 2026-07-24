@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  title: Samsung SmartThings Apps Virtual Devices API
+  description: 'The SmartThings API is the RESTful core of the SmartThings smart-home IoT platform. It is used to control devices, read device status, manage Locations, Rooms, and Modes, build Automations with Rules and Scenes, inspect Capabilities, and build SmartApps (Apps and Installed Apps) that subscribe to events and run Schedules. Requests are authenticated with a Personal Access Token (PAT) for testing or an OAuth 2.0 access token for production integrations, passed as `Authorization: Bearer {token}`. This document is grounded in the official SmartThings Swagger definition (https://swagger.api.smartthings.com/public/st-api.yml); some less-common endpoints (Apps, History, Virtual Devices, individual Subscription operations) are modeled from the public docs and SDK where a full path was not directly confirmed.'
+  version: '1.0'
+  contact:
+    name: SmartThings Developers
+    url: https://developer.smartthings.com
+servers:
+- url: https://api.smartthings.com/v1
+  description: SmartThings Cloud API
+security:
+- bearerAuth: []
+- oauth2: []
+tags:
+- name: Virtual Devices
+  description: Software devices for testing automations and integrations.
+paths:
+  /virtualdevices:
+    get:
+      operationId: listVirtualDevices
+      tags:
+      - Virtual Devices
+      summary: List Virtual Devices
+      description: Lists virtual devices. Modeled from the public docs and SDK.
+      responses:
+        '200':
+          description: A list of virtual devices.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createVirtualDevice
+      tags:
+      - Virtual Devices
+      summary: Create a Virtual Device
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The created virtual device.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /virtualdevices/{deviceId}/events:
+    parameters:
+    - $ref: '#/components/parameters/DeviceId'
+    post:
+      operationId: createVirtualDeviceEvents
+      tags:
+      - Virtual Devices
+      summary: Create Virtual Device Events
+      description: Pushes state events to a virtual device to simulate device behavior.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Events accepted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        requestId:
+          type: string
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+    DeviceList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Device'
+        _links:
+          type: object
+          additionalProperties: true
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        name:
+          type: string
+        label:
+          type: string
+        locationId:
+          type: string
+        roomId:
+          type: string
+        deviceTypeName:
+          type: string
+        type:
+          type: string
+        components:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    DeviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: The identifier of the device.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'A Personal Access Token (PAT) from https://account.smartthings.com/tokens or an OAuth 2.0 access token, passed as `Authorization: Bearer {token}`.'
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authorization code flow for production integrations.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.smartthings.com/oauth/authorize
+          tokenUrl: https://api.smartthings.com/oauth/token
+          scopes:
+            r:devices:*: Read devices
+            x:devices:*: Control devices
+            r:locations:*: Read locations
+            w:locations:*: Manage locations
+            r:scenes:*: Read scenes
+            x:scenes:*: Execute scenes
+            r:rules:*: Read rules
+            w:rules:*: Manage rules

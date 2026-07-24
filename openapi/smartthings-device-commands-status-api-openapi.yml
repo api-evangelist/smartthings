@@ -1,0 +1,246 @@
+openapi: 3.0.3
+info:
+  title: Samsung SmartThings Apps Device Commands & Status API
+  description: 'The SmartThings API is the RESTful core of the SmartThings smart-home IoT platform. It is used to control devices, read device status, manage Locations, Rooms, and Modes, build Automations with Rules and Scenes, inspect Capabilities, and build SmartApps (Apps and Installed Apps) that subscribe to events and run Schedules. Requests are authenticated with a Personal Access Token (PAT) for testing or an OAuth 2.0 access token for production integrations, passed as `Authorization: Bearer {token}`. This document is grounded in the official SmartThings Swagger definition (https://swagger.api.smartthings.com/public/st-api.yml); some less-common endpoints (Apps, History, Virtual Devices, individual Subscription operations) are modeled from the public docs and SDK where a full path was not directly confirmed.'
+  version: '1.0'
+  contact:
+    name: SmartThings Developers
+    url: https://developer.smartthings.com
+servers:
+- url: https://api.smartthings.com/v1
+  description: SmartThings Cloud API
+security:
+- bearerAuth: []
+- oauth2: []
+tags:
+- name: Device Commands & Status
+  description: Execute commands, create events, and read device/component/capability status.
+paths:
+  /devices/{deviceId}/commands:
+    parameters:
+    - $ref: '#/components/parameters/DeviceId'
+    post:
+      operationId: executeDeviceCommands
+      tags:
+      - Device Commands & Status
+      summary: Execute Commands on a Device
+      description: Executes one or more capability commands on a device (up to 10 commands per request).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandsRequest'
+      responses:
+        '200':
+          description: Command execution results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResults'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /devices/{deviceId}/events:
+    parameters:
+    - $ref: '#/components/parameters/DeviceId'
+    post:
+      operationId: createDeviceEvents
+      tags:
+      - Device Commands & Status
+      summary: Create Device Events
+      description: Creates one or more state events for a device (up to 50 per request), typically for cloud-connected or virtual devices.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deviceEvents:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: true
+      responses:
+        '200':
+          description: Events accepted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /devices/{deviceId}/status:
+    parameters:
+    - $ref: '#/components/parameters/DeviceId'
+    get:
+      operationId: getDeviceStatus
+      tags:
+      - Device Commands & Status
+      summary: Get the Full Status of a Device
+      responses:
+        '200':
+          description: The full status of the device across all components and capabilities.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /devices/{deviceId}/components/{componentId}/status:
+    parameters:
+    - $ref: '#/components/parameters/DeviceId'
+    - $ref: '#/components/parameters/ComponentId'
+    get:
+      operationId: getDeviceComponentStatus
+      tags:
+      - Device Commands & Status
+      summary: Get the Status of a Device Component
+      responses:
+        '200':
+          description: The status of the component.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /devices/{deviceId}/components/{componentId}/capabilities/{capabilityId}/status:
+    parameters:
+    - $ref: '#/components/parameters/DeviceId'
+    - $ref: '#/components/parameters/ComponentId'
+    - name: capabilityId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getDeviceCapabilityStatus
+      tags:
+      - Device Commands & Status
+      summary: Get the Status of a Capability
+      responses:
+        '200':
+          description: The status of the capability on the component.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    CommandResults:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              status:
+                type: string
+                enum:
+                - ACCEPTED
+                - COMPLETED
+                - FAILED
+    Error:
+      type: object
+      properties:
+        requestId:
+          type: string
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+    CommandsRequest:
+      type: object
+      required:
+      - commands
+      properties:
+        commands:
+          type: array
+          items:
+            type: object
+            required:
+            - capability
+            - command
+            properties:
+              component:
+                type: string
+                default: main
+              capability:
+                type: string
+              command:
+                type: string
+              arguments:
+                type: array
+                items: {}
+  parameters:
+    ComponentId:
+      name: componentId
+      in: path
+      required: true
+      description: The identifier of the device component (e.g. main).
+      schema:
+        type: string
+    DeviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: The identifier of the device.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'A Personal Access Token (PAT) from https://account.smartthings.com/tokens or an OAuth 2.0 access token, passed as `Authorization: Bearer {token}`.'
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authorization code flow for production integrations.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.smartthings.com/oauth/authorize
+          tokenUrl: https://api.smartthings.com/oauth/token
+          scopes:
+            r:devices:*: Read devices
+            x:devices:*: Control devices
+            r:locations:*: Read locations
+            w:locations:*: Manage locations
+            r:scenes:*: Read scenes
+            x:scenes:*: Execute scenes
+            r:rules:*: Read rules
+            w:rules:*: Manage rules
