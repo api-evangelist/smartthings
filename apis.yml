@@ -13,7 +13,20 @@ description: Samsung SmartThings is a smart-home IoT platform for connecting,
   swagger.api.smartthings.com/public/st-api.yml. Event delivery is push-based
   over HTTP webhooks (SmartApp lifecycle callbacks and the Enterprise Eventing
   API sinks/subscriptions), not a public WebSocket.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/smartthings.png
 tags:
 - Smart Home
 - IoT
@@ -24,324 +37,622 @@ created: '2026-07-03'
 modified: '2026-07-03'
 specificationVersion: '0.19'
 apis:
-- aid: smartthings:smartthings-devices-api
-  name: SmartThings Devices API
-  tags:
-  - Devices
-  - IoT
-  - Smart Home
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+- aid: smartthings:smartthings-apps-api
+  name: Samsung SmartThings Apps API
+  description: SmartApp registrations (Lambda or webhook endpoints).
   humanURL: https://developer.smartthings.com/docs/devices/device-basics
   baseURL: https://api.smartthings.com/v1
-  properties:
-  - url: https://developer.smartthings.com/docs/devices/device-basics
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: List, install, get, update, and delete the devices connected to a
-    SmartThings account, and read a device's description, components, and health
-    state.
-- aid: smartthings:smartthings-device-commands-status-api
-  name: SmartThings Device Commands & Status API
-  tags:
-  - Device Control
-  - Commands
-  - Status
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/devices/commands
-  baseURL: https://api.smartthings.com/v1
-  properties:
-  - url: https://developer.smartthings.com/docs/devices/commands
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: Execute capability commands on a device, create device events, and
-    read full device status or the status of a single component or capability.
-- aid: smartthings:smartthings-locations-api
-  name: SmartThings Locations API
-  tags:
-  - Locations
-  - Modes
-  - Geofence
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/locations/locations
-  baseURL: https://api.smartthings.com/v1
-  properties:
-  - url: https://developer.smartthings.com/docs/locations/locations
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: Create, list, get, update, and delete the Locations (homes) that
-    group hubs, devices, and automations, and manage a Location's Modes and
-    current Mode.
-- aid: smartthings:smartthings-rooms-api
-  name: SmartThings Rooms API
-  tags:
-  - Rooms
-  - Locations
-  - Grouping
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/locations/rooms
-  baseURL: https://api.smartthings.com/v1
-  properties:
-  - url: https://developer.smartthings.com/docs/locations/rooms
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: Create, list, get, update, and delete Rooms, which group devices
-    within a Location.
-- aid: smartthings:smartthings-scenes-api
-  name: SmartThings Scenes API
-  tags:
-  - Scenes
-  - Automation
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/automations/scenes
-  baseURL: https://api.smartthings.com/v1
-  properties:
-  - url: https://developer.smartthings.com/docs/automations/scenes
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: Create, list, get, update, delete, and execute Scenes - saved sets
-    of device states that can be triggered on demand.
-- aid: smartthings:smartthings-rules-api
-  name: SmartThings Rules API
-  tags:
-  - Rules
-  - Automation
-  - Routines
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/automations/rules
-  baseURL: https://api.smartthings.com/v1
-  properties:
-  - url: https://developer.smartthings.com/docs/automations/rules
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: Create, list, get, update, delete, and execute Rules - the
-    condition/action Automations that operate on SmartThings connected devices.
-- aid: smartthings:smartthings-capabilities-api
-  name: SmartThings Capabilities API
-  tags:
-  - Capabilities
-  - Schema
-  - Metadata
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
-  baseURL: https://api.smartthings.com/v1
-  properties:
-  - url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: List and retrieve standard and custom Capabilities - the typed
-    attributes and commands (switch, temperatureMeasurement, lock, etc.) that
-    describe what a device can do, by capability id and version.
-- aid: smartthings:smartthings-subscriptions-api
-  name: SmartThings Subscriptions API
-  tags:
-  - Subscriptions
-  - Events
-  - Webhooks
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/connected-services/subscriptions
-  baseURL: https://api.smartthings.com/v1
-  properties:
-  - url: https://developer.smartthings.com/docs/connected-services/subscriptions
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: Create, list, get, and delete an Installed App's event
-    Subscriptions - filters that determine which device, capability, mode, or
-    device-lifecycle events are delivered to the app's webhook via the EVENT
-    lifecycle callback.
-- aid: smartthings:smartthings-schedules-api
-  name: SmartThings Schedules API
-  tags:
-  - Schedules
-  - Cron
-  - SmartApps
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/connected-services/schedules
-  baseURL: https://api.smartthings.com/v1
-  properties:
-  - url: https://developer.smartthings.com/docs/connected-services/schedules
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: Create, list, and delete Schedules for an Installed App - once or
-    cron-style future executions that trigger the app's EXECUTE lifecycle
-    callback.
-- aid: smartthings:smartthings-apps-api
-  name: SmartThings Apps API
   tags:
   - Apps
-  - SmartApps
-  - Webhooks
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/connected-services/smartapp-basics
-  baseURL: https://api.smartthings.com/v1
   properties:
-  - url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: Register and manage SmartApps - the AWS Lambda or webhook endpoints
-    that implement the SmartThings lifecycle (PING, CONFIGURATION, INSTALL,
-    UPDATE, EVENT, UNINSTALL) - including creating, listing, updating, deleting,
-    and rotating OAuth settings.
-- aid: smartthings:smartthings-installed-apps-api
-  name: SmartThings Installed Apps API
+  - type: OpenAPI
+    url: openapi/smartthings-apps-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
+- aid: smartthings:smartthings-capabilities-api
+  name: Samsung SmartThings Capabilities API
+  description: Standard and custom capability definitions.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
   tags:
-  - Installed Apps
-  - SmartApps
-  - Configurations
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/connected-services/lifecycles
-  baseURL: https://api.smartthings.com/v1
+  - Capabilities
   properties:
-  - url: https://developer.smartthings.com/docs/connected-services/lifecycles
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: List, get, and delete a user's Installed Apps and read their
-    configurations, and create Installed App events - the per-user installations
-    of a SmartApp within a Location.
-- aid: smartthings:smartthings-presentations-api
-  name: SmartThings Presentations API
+  - type: OpenAPI
+    url: openapi/smartthings-capabilities-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
+- aid: smartthings:smartthings-device-commands-status-api
+  name: Samsung SmartThings Device Commands & Status API
+  description: Execute commands, create events, and read device/component/capability status.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
   tags:
-  - Presentations
-  - Device Config
-  - UI
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/devices/device-presentation
-  baseURL: https://api.smartthings.com/v1
+  - Device Commands & Status
   properties:
-  - url: https://developer.smartthings.com/docs/devices/device-presentation
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: Generate, create, and retrieve device Presentations and device
-    configurations - the metadata that drives how a device is rendered and
-    controlled in the SmartThings app.
+  - type: OpenAPI
+    url: openapi/smartthings-device-commands-status-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
+- aid: smartthings:smartthings-devices-api
+  name: Samsung SmartThings Devices API
+  description: Access, control, install, update, and delete devices.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
+  tags:
+  - Devices
+  properties:
+  - type: OpenAPI
+    url: openapi/smartthings-devices-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
 - aid: smartthings:smartthings-history-api
-  name: SmartThings History API
+  name: Samsung SmartThings History API
+  description: Event history for devices and locations.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
   tags:
   - History
-  - Events
-  - Analytics
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/devices/device-history
-  baseURL: https://api.smartthings.com/v1
   properties:
-  - url: https://developer.smartthings.com/docs/devices/device-history
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: Query the paginated event History for devices and locations - the
-    time-ordered record of device state changes and events.
+  - type: OpenAPI
+    url: openapi/smartthings-history-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
+- aid: smartthings:smartthings-installed-apps-api
+  name: Samsung SmartThings Installed Apps API
+  description: Per-user installations of a SmartApp.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
+  tags:
+  - Installed Apps
+  properties:
+  - type: OpenAPI
+    url: openapi/smartthings-installed-apps-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
+- aid: smartthings:smartthings-locations-api
+  name: Samsung SmartThings Locations API
+  description: Locations (homes) and their Modes.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
+  tags:
+  - Locations
+  properties:
+  - type: OpenAPI
+    url: openapi/smartthings-locations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
+- aid: smartthings:smartthings-presentations-api
+  name: Samsung SmartThings Presentations API
+  description: Device presentation and configuration metadata.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
+  tags:
+  - Presentations
+  properties:
+  - type: OpenAPI
+    url: openapi/smartthings-presentations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
+- aid: smartthings:smartthings-rooms-api
+  name: Samsung SmartThings Rooms API
+  description: Groupings of devices within a Location.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
+  tags:
+  - Rooms
+  properties:
+  - type: OpenAPI
+    url: openapi/smartthings-rooms-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
+- aid: smartthings:smartthings-rules-api
+  name: Samsung SmartThings Rules API
+  description: Condition/action Automations over connected devices.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
+  tags:
+  - Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/smartthings-rules-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
+- aid: smartthings:smartthings-scenes-api
+  name: Samsung SmartThings Scenes API
+  description: Saved sets of device states that can be executed on demand.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
+  tags:
+  - Scenes
+  properties:
+  - type: OpenAPI
+    url: openapi/smartthings-scenes-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
+- aid: smartthings:smartthings-schedules-api
+  name: Samsung SmartThings Schedules API
+  description: Future/cron executions for Installed Apps.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
+  tags:
+  - Schedules
+  properties:
+  - type: OpenAPI
+    url: openapi/smartthings-schedules-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
+- aid: smartthings:smartthings-subscriptions-api
+  name: Samsung SmartThings Subscriptions API
+  description: Event subscriptions for Installed Apps.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
+  tags:
+  - Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/smartthings-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
 - aid: smartthings:smartthings-virtual-devices-api
-  name: SmartThings Virtual Devices API
+  name: Samsung SmartThings Virtual Devices API
+  description: Software devices for testing automations and integrations.
+  humanURL: https://developer.smartthings.com/docs/devices/device-basics
+  baseURL: https://api.smartthings.com/v1
   tags:
   - Virtual Devices
-  - Testing
-  - Simulation
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.smartthings.com/docs/devices/virtual-devices
-  baseURL: https://api.smartthings.com/v1
   properties:
-  - url: https://developer.smartthings.com/docs/devices/virtual-devices
-    type: Documentation
-  - url: https://developer.smartthings.com/docs/api/public
-    type: APIReference
-  - url: openapi/smartthings-openapi.yml
-    type: OpenAPI
-  - url: collections/smartthings.postman_collection.json
-    type: PostmanCollection
-  - url: collections/smartthings.opencollection.json
-    type: OpenCollection
-  description: Create and manage Virtual Devices and push events to them - software
-    devices with prototype or standard profiles used for testing automations and
-    integrations without physical hardware.
+  - type: OpenAPI
+    url: openapi/smartthings-virtual-devices-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-basics
+  - type: APIReference
+    url: https://developer.smartthings.com/docs/api/public
+  - type: PostmanCollection
+    url: collections/smartthings.postman_collection.json
+  - type: OpenCollection
+    url: collections/smartthings.opencollection.json
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/commands
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/locations
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/locations/rooms
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/scenes
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/automations/rules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/subscriptions
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/schedules
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/smartapp-basics
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/connected-services/lifecycles
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-presentation
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/device-history
+  - type: Documentation
+    url: https://developer.smartthings.com/docs/devices/virtual-devices
 common:
 - type: AgenticAccess
   url: agentic-access/smartthings-agentic-access.yml
