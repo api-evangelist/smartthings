@@ -1,0 +1,40 @@
+{
+  "provider": "smartthings",
+  "sources": [
+    "smartthings-apps-api-openapi.yml",
+    "smartthings-capabilities-api-openapi.yml",
+    "smartthings-device-commands-status-api-openapi.yml",
+    "smartthings-devices-api-openapi.yml",
+    "smartthings-history-api-openapi.yml",
+    "smartthings-installed-apps-api-openapi.yml",
+    "smartthings-locations-api-openapi.yml",
+    "smartthings-presentations-api-openapi.yml",
+    "smartthings-rooms-api-openapi.yml",
+    "smartthings-rules-api-openapi.yml",
+    "smartthings-scenes-api-openapi.yml",
+    "smartthings-schedules-api-openapi.yml",
+    "smartthings-subscriptions-api-openapi.yml",
+    "smartthings-virtual-devices-api-openapi.yml"
+  ],
+  "outputs": [
+    "smartthings-apps-api-openapi.yml",
+    "smartthings-capabilities-api-openapi.yml",
+    "smartthings-device-commands-status-api-openapi.yml",
+    "smartthings-devices-api-openapi.yml",
+    "smartthings-history-api-openapi.yml",
+    "smartthings-installed-apps-api-openapi.yml",
+    "smartthings-locations-api-openapi.yml",
+    "smartthings-presentations-api-openapi.yml",
+    "smartthings-rooms-api-openapi.yml",
+    "smartthings-rules-api-openapi.yml",
+    "smartthings-scenes-api-openapi.yml",
+    "smartthings-schedules-api-openapi.yml",
+    "smartthings-subscriptions-api-openapi.yml",
+    "smartthings-virtual-devices-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

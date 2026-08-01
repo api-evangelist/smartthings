@@ -1,0 +1,1632 @@
+openapi: 3.0.3
+info:
+  title: Samsung SmartThings API
+  description: >-
+    The SmartThings API is the RESTful core of the SmartThings smart-home IoT
+    platform. It is used to control devices, read device status, manage
+    Locations, Rooms, and Modes, build Automations with Rules and Scenes,
+    inspect Capabilities, and build SmartApps (Apps and Installed Apps) that
+    subscribe to events and run Schedules. Requests are authenticated with a
+    Personal Access Token (PAT) for testing or an OAuth 2.0 access token for
+    production integrations, passed as `Authorization: Bearer {token}`. This
+    document is grounded in the official SmartThings Swagger definition
+    (https://swagger.api.smartthings.com/public/st-api.yml); some less-common
+    endpoints (Apps, History, Virtual Devices, individual Subscription
+    operations) are modeled from the public docs and SDK where a full path was
+    not directly confirmed.
+  version: '1.0'
+  contact:
+    name: SmartThings Developers
+    url: https://developer.smartthings.com
+servers:
+  - url: https://api.smartthings.com/v1
+    description: SmartThings Cloud API
+security:
+  - bearerAuth: []
+  - oauth2: []
+tags:
+  - name: Devices
+    description: Access, control, install, update, and delete devices.
+  - name: Device Commands & Status
+    description: Execute commands, create events, and read device/component/capability status.
+  - name: Locations
+    description: Locations (homes) and their Modes.
+  - name: Rooms
+    description: Groupings of devices within a Location.
+  - name: Scenes
+    description: Saved sets of device states that can be executed on demand.
+  - name: Rules
+    description: Condition/action Automations over connected devices.
+  - name: Capabilities
+    description: Standard and custom capability definitions.
+  - name: Subscriptions
+    description: Event subscriptions for Installed Apps.
+  - name: Schedules
+    description: Future/cron executions for Installed Apps.
+  - name: Apps
+    description: SmartApp registrations (Lambda or webhook endpoints).
+  - name: Installed Apps
+    description: Per-user installations of a SmartApp.
+  - name: Presentations
+    description: Device presentation and configuration metadata.
+  - name: History
+    description: Event history for devices and locations.
+  - name: Virtual Devices
+    description: Software devices for testing automations and integrations.
+paths:
+  /devices:
+    get:
+      operationId: listDevices
+      tags: [Devices]
+      summary: List Devices
+      description: Lists the devices accessible to the authenticated principal, optionally filtered by location, capability, or type.
+      parameters:
+        - name: locationId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: capability
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A paginated list of devices.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: installDevice
+      tags: [Devices]
+      summary: Install a Device
+      description: Installs (creates) a device, for example a virtual or cloud-connected device.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The installed device.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /devices/{deviceId}:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+    get:
+      operationId: getDevice
+      tags: [Devices]
+      summary: Get the Description of a Device
+      responses:
+        '200':
+          description: The device description.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateDevice
+      tags: [Devices]
+      summary: Update a Device
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The updated device.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteDevice
+      tags: [Devices]
+      summary: Delete a Device
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /devices/{deviceId}/commands:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+    post:
+      operationId: executeDeviceCommands
+      tags: [Device Commands & Status]
+      summary: Execute Commands on a Device
+      description: Executes one or more capability commands on a device (up to 10 commands per request).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandsRequest'
+      responses:
+        '200':
+          description: Command execution results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResults'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /devices/{deviceId}/events:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+    post:
+      operationId: createDeviceEvents
+      tags: [Device Commands & Status]
+      summary: Create Device Events
+      description: Creates one or more state events for a device (up to 50 per request), typically for cloud-connected or virtual devices.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deviceEvents:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: true
+      responses:
+        '200':
+          description: Events accepted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /devices/{deviceId}/status:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+    get:
+      operationId: getDeviceStatus
+      tags: [Device Commands & Status]
+      summary: Get the Full Status of a Device
+      responses:
+        '200':
+          description: The full status of the device across all components and capabilities.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /devices/{deviceId}/components/{componentId}/status:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+      - $ref: '#/components/parameters/ComponentId'
+    get:
+      operationId: getDeviceComponentStatus
+      tags: [Device Commands & Status]
+      summary: Get the Status of a Device Component
+      responses:
+        '200':
+          description: The status of the component.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /devices/{deviceId}/components/{componentId}/capabilities/{capabilityId}/status:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+      - $ref: '#/components/parameters/ComponentId'
+      - name: capabilityId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getDeviceCapabilityStatus
+      tags: [Device Commands & Status]
+      summary: Get the Status of a Capability
+      responses:
+        '200':
+          description: The status of the capability on the component.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /devices/{deviceId}/health:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+    get:
+      operationId: getDeviceHealth
+      tags: [Devices]
+      summary: Get the Health State of a Device
+      responses:
+        '200':
+          description: The device health state (ONLINE/OFFLINE).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deviceId:
+                    type: string
+                  state:
+                    type: string
+                    enum: [ONLINE, OFFLINE, UNHEALTHY]
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /locations:
+    get:
+      operationId: listLocations
+      tags: [Locations]
+      summary: List Locations
+      responses:
+        '200':
+          description: A list of locations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Location'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createLocation
+      tags: [Locations]
+      summary: Create a Location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationInput'
+      responses:
+        '200':
+          description: The created location.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /locations/{locationId}:
+    parameters:
+      - $ref: '#/components/parameters/LocationId'
+    get:
+      operationId: getLocation
+      tags: [Locations]
+      summary: Get a Location
+      responses:
+        '200':
+          description: The location.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateLocation
+      tags: [Locations]
+      summary: Update a Location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationInput'
+      responses:
+        '200':
+          description: The updated location.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: patchLocation
+      tags: [Locations]
+      summary: Patch a Location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The patched location.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteLocation
+      tags: [Locations]
+      summary: Delete a Location
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /locations/{locationId}/rooms:
+    parameters:
+      - $ref: '#/components/parameters/LocationId'
+    get:
+      operationId: listRooms
+      tags: [Rooms]
+      summary: List Rooms
+      responses:
+        '200':
+          description: A list of rooms in the location.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Room'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createRoom
+      tags: [Rooms]
+      summary: Create a Room
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoomInput'
+      responses:
+        '200':
+          description: The created room.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /locations/{locationId}/rooms/{roomId}:
+    parameters:
+      - $ref: '#/components/parameters/LocationId'
+      - name: roomId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getRoom
+      tags: [Rooms]
+      summary: Get a Room
+      responses:
+        '200':
+          description: The room.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateRoom
+      tags: [Rooms]
+      summary: Update a Room
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoomInput'
+      responses:
+        '200':
+          description: The updated room.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteRoom
+      tags: [Rooms]
+      summary: Delete a Room
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /locations/{locationId}/modes:
+    parameters:
+      - $ref: '#/components/parameters/LocationId'
+    get:
+      operationId: listModes
+      tags: [Locations]
+      summary: Get the Modes of a Location
+      responses:
+        '200':
+          description: The modes of the location.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createMode
+      tags: [Locations]
+      summary: Create a Mode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                label:
+                  type: string
+      responses:
+        '200':
+          description: The created mode.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /locations/{locationId}/modes/current:
+    parameters:
+      - $ref: '#/components/parameters/LocationId'
+    get:
+      operationId: getCurrentMode
+      tags: [Locations]
+      summary: Get a Location's Current Mode
+      responses:
+        '200':
+          description: The current mode.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: setCurrentMode
+      tags: [Locations]
+      summary: Change a Location's Current Mode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                modeId:
+                  type: string
+      responses:
+        '200':
+          description: The updated current mode.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /scenes:
+    get:
+      operationId: listScenes
+      tags: [Scenes]
+      summary: List Scenes
+      parameters:
+        - name: locationId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of scenes.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Scene'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createScene
+      tags: [Scenes]
+      summary: Create a Scene
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The created scene.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /scenes/{sceneId}:
+    parameters:
+      - name: sceneId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getScene
+      tags: [Scenes]
+      summary: Get a Scene
+      responses:
+        '200':
+          description: The scene.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scene'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateScene
+      tags: [Scenes]
+      summary: Update a Scene
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The updated scene.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteScene
+      tags: [Scenes]
+      summary: Delete a Scene
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /scenes/{sceneId}/execute:
+    parameters:
+      - name: sceneId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: executeScene
+      tags: [Scenes]
+      summary: Execute a Scene
+      responses:
+        '200':
+          description: Scene execution result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /rules:
+    get:
+      operationId: listRules
+      tags: [Rules]
+      summary: List Rules
+      parameters:
+        - name: locationId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of rules.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Rule'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createRule
+      tags: [Rules]
+      summary: Create a Rule
+      parameters:
+        - name: locationId
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rule'
+      responses:
+        '200':
+          description: The created rule.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /rules/{ruleId}:
+    parameters:
+      - name: ruleId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: locationId
+        in: query
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getRule
+      tags: [Rules]
+      summary: Get a Rule
+      responses:
+        '200':
+          description: The rule.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateRule
+      tags: [Rules]
+      summary: Update a Rule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rule'
+      responses:
+        '200':
+          description: The updated rule.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteRule
+      tags: [Rules]
+      summary: Delete a Rule
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /rules/{ruleId}/execute:
+    parameters:
+      - name: ruleId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: locationId
+        in: query
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: executeRule
+      tags: [Rules]
+      summary: Execute a Rule
+      responses:
+        '200':
+          description: Rule execution result.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /capabilities:
+    get:
+      operationId: listCapabilities
+      tags: [Capabilities]
+      summary: List Capabilities
+      responses:
+        '200':
+          description: A list of standard capabilities.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Capability'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /capabilities/{capabilityId}/{capabilityVersion}:
+    parameters:
+      - name: capabilityId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: capabilityVersion
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      operationId: getCapability
+      tags: [Capabilities]
+      summary: Get a Capability
+      responses:
+        '200':
+          description: The capability definition, including attributes and commands.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Capability'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /installedapps:
+    get:
+      operationId: listInstalledApps
+      tags: [Installed Apps]
+      summary: List Installed Apps
+      parameters:
+        - name: locationId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of installed apps.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/InstalledApp'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /installedapps/{installedAppId}:
+    parameters:
+      - $ref: '#/components/parameters/InstalledAppId'
+    get:
+      operationId: getInstalledApp
+      tags: [Installed Apps]
+      summary: Get an Installed App
+      responses:
+        '200':
+          description: The installed app.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstalledApp'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteInstalledApp
+      tags: [Installed Apps]
+      summary: Delete an Installed App
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /installedapps/{installedAppId}/configs:
+    parameters:
+      - $ref: '#/components/parameters/InstalledAppId'
+    get:
+      operationId: listInstalledAppConfigs
+      tags: [Installed Apps]
+      summary: List an Installed App's Configurations
+      responses:
+        '200':
+          description: A list of configurations.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /installedapps/{installedAppId}/events:
+    parameters:
+      - $ref: '#/components/parameters/InstalledAppId'
+    post:
+      operationId: createInstalledAppEvents
+      tags: [Installed Apps]
+      summary: Create Installed App Events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Events accepted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /installedapps/{installedAppId}/subscriptions:
+    parameters:
+      - $ref: '#/components/parameters/InstalledAppId'
+    get:
+      operationId: listSubscriptions
+      tags: [Subscriptions]
+      summary: List an Installed App's Subscriptions
+      responses:
+        '200':
+          description: A list of subscriptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Subscription'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createSubscription
+      tags: [Subscriptions]
+      summary: Create a Subscription for an Installed App
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subscription'
+      responses:
+        '200':
+          description: The created subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteAllSubscriptions
+      tags: [Subscriptions]
+      summary: Delete All of an Installed App's Subscriptions
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /installedapps/{installedAppId}/subscriptions/{subscriptionId}:
+    parameters:
+      - $ref: '#/components/parameters/InstalledAppId'
+      - name: subscriptionId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getSubscription
+      tags: [Subscriptions]
+      summary: Get a Subscription
+      responses:
+        '200':
+          description: The subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteSubscription
+      tags: [Subscriptions]
+      summary: Delete a Subscription
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /installedapps/{installedAppId}/schedules:
+    parameters:
+      - $ref: '#/components/parameters/InstalledAppId'
+    get:
+      operationId: listSchedules
+      tags: [Schedules]
+      summary: List Schedules
+      responses:
+        '200':
+          description: A list of schedules.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Schedule'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /installedapps/{installedAppId}/schedules/{scheduleName}:
+    parameters:
+      - $ref: '#/components/parameters/InstalledAppId'
+      - name: scheduleName
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: createSchedule
+      tags: [Schedules]
+      summary: Create a Schedule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+      responses:
+        '200':
+          description: The created schedule.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteSchedule
+      tags: [Schedules]
+      summary: Delete a Schedule
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /apps:
+    get:
+      operationId: listApps
+      tags: [Apps]
+      summary: List Apps
+      description: Lists the SmartApps registered by the authenticated principal. Modeled from the public docs and SDK.
+      responses:
+        '200':
+          description: A list of apps.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/App'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createApp
+      tags: [Apps]
+      summary: Create an App
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/App'
+      responses:
+        '200':
+          description: The created app.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/App'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /apps/{appNameOrId}:
+    parameters:
+      - name: appNameOrId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getApp
+      tags: [Apps]
+      summary: Get an App
+      responses:
+        '200':
+          description: The app.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/App'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateApp
+      tags: [Apps]
+      summary: Update an App
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/App'
+      responses:
+        '200':
+          description: The updated app.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteApp
+      tags: [Apps]
+      summary: Delete an App
+      responses:
+        '200':
+          description: Deletion confirmation.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /presentation:
+    get:
+      operationId: getPresentation
+      tags: [Presentations]
+      summary: Get a Device Presentation
+      parameters:
+        - name: presentationId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: manufacturerName
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The device presentation.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /presentation/deviceconfig:
+    get:
+      operationId: getDeviceConfig
+      tags: [Presentations]
+      summary: Get a Device Configuration
+      parameters:
+        - name: presentationId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The device configuration.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createDeviceConfig
+      tags: [Presentations]
+      summary: Create a Device Configuration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The created device configuration.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /history/devices:
+    get:
+      operationId: getDeviceHistory
+      tags: [History]
+      summary: Query Device History
+      description: Returns the paginated event history for devices. Modeled from the public docs and SDK.
+      parameters:
+        - name: locationId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: deviceId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A paginated list of historical device events.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /virtualdevices:
+    get:
+      operationId: listVirtualDevices
+      tags: [Virtual Devices]
+      summary: List Virtual Devices
+      description: Lists virtual devices. Modeled from the public docs and SDK.
+      responses:
+        '200':
+          description: A list of virtual devices.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createVirtualDevice
+      tags: [Virtual Devices]
+      summary: Create a Virtual Device
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The created virtual device.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /virtualdevices/{deviceId}/events:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+    post:
+      operationId: createVirtualDeviceEvents
+      tags: [Virtual Devices]
+      summary: Create Virtual Device Events
+      description: Pushes state events to a virtual device to simulate device behavior.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Events accepted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        A Personal Access Token (PAT) from https://account.smartthings.com/tokens
+        or an OAuth 2.0 access token, passed as `Authorization: Bearer {token}`.
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authorization code flow for production integrations.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.smartthings.com/oauth/authorize
+          tokenUrl: https://api.smartthings.com/oauth/token
+          scopes:
+            r:devices:*: Read devices
+            x:devices:*: Control devices
+            r:locations:*: Read locations
+            w:locations:*: Manage locations
+            r:scenes:*: Read scenes
+            x:scenes:*: Execute scenes
+            r:rules:*: Read rules
+            w:rules:*: Manage rules
+  parameters:
+    DeviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: The identifier of the device.
+      schema:
+        type: string
+    ComponentId:
+      name: componentId
+      in: path
+      required: true
+      description: The identifier of the device component (e.g. main).
+      schema:
+        type: string
+    LocationId:
+      name: locationId
+      in: path
+      required: true
+      description: The identifier of the location.
+      schema:
+        type: string
+    InstalledAppId:
+      name: installedAppId
+      in: path
+      required: true
+      description: The identifier of the installed app.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: The request violated a platform guardrail or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        requestId:
+          type: string
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+    DeviceList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Device'
+        _links:
+          type: object
+          additionalProperties: true
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        name:
+          type: string
+        label:
+          type: string
+        locationId:
+          type: string
+        roomId:
+          type: string
+        deviceTypeName:
+          type: string
+        type:
+          type: string
+        components:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    CommandsRequest:
+      type: object
+      required:
+        - commands
+      properties:
+        commands:
+          type: array
+          items:
+            type: object
+            required:
+              - capability
+              - command
+            properties:
+              component:
+                type: string
+                default: main
+              capability:
+                type: string
+              command:
+                type: string
+              arguments:
+                type: array
+                items: {}
+    CommandResults:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              status:
+                type: string
+                enum: [ACCEPTED, COMPLETED, FAILED]
+    Location:
+      type: object
+      properties:
+        locationId:
+          type: string
+        name:
+          type: string
+        countryCode:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        temperatureScale:
+          type: string
+        timeZoneId:
+          type: string
+    LocationInput:
+      type: object
+      required:
+        - name
+        - countryCode
+      properties:
+        name:
+          type: string
+        countryCode:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        temperatureScale:
+          type: string
+    Room:
+      type: object
+      properties:
+        roomId:
+          type: string
+        locationId:
+          type: string
+        name:
+          type: string
+    RoomInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    Scene:
+      type: object
+      properties:
+        sceneId:
+          type: string
+        sceneName:
+          type: string
+        locationId:
+          type: string
+    Rule:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        actions:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    Capability:
+      type: object
+      properties:
+        id:
+          type: string
+        version:
+          type: integer
+        status:
+          type: string
+        name:
+          type: string
+        attributes:
+          type: object
+          additionalProperties: true
+        commands:
+          type: object
+          additionalProperties: true
+    InstalledApp:
+      type: object
+      properties:
+        installedAppId:
+          type: string
+        appId:
+          type: string
+        installedAppType:
+          type: string
+        installedAppStatus:
+          type: string
+        locationId:
+          type: string
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+        installedAppId:
+          type: string
+        sourceType:
+          type: string
+          enum: [DEVICE, CAPABILITY, MODE, DEVICE_LIFECYCLE, DEVICE_HEALTH, HUB_HEALTH, SCENE_LIFECYCLE, SECURITY_ARM_STATE]
+        device:
+          type: object
+          additionalProperties: true
+        capability:
+          type: object
+          additionalProperties: true
+    Schedule:
+      type: object
+      properties:
+        scheduledExecutions:
+          type: array
+          items:
+            type: integer
+        name:
+          type: string
+        cron:
+          type: object
+          properties:
+            expression:
+              type: string
+            timezone:
+              type: string
+        once:
+          type: object
+          properties:
+            time:
+              type: integer
+    App:
+      type: object
+      properties:
+        appId:
+          type: string
+        appName:
+          type: string
+        appType:
+          type: string
+          enum: [LAMBDA_SMART_APP, WEBHOOK_SMART_APP, API_ONLY]
+        displayName:
+          type: string
+        description:
+          type: string
+        webhookSmartApp:
+          type: object
+          additionalProperties: true
+        lambdaSmartApp:
+          type: object
+          additionalProperties: true
