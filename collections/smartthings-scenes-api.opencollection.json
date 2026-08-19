@@ -1,0 +1,133 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Samsung SmartThings Apps Scenes API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Scenes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Scenes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/scenes",
+            "params": [
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Scenes"
+        },
+        {
+          "info": {
+            "name": "Create a Scene",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/scenes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Scene"
+        },
+        {
+          "info": {
+            "name": "Get a Scene",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/scenes/:sceneId",
+            "params": [
+              {
+                "name": "sceneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Scene"
+        },
+        {
+          "info": {
+            "name": "Update a Scene",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.smartthings.com/v1/scenes/:sceneId",
+            "params": [
+              {
+                "name": "sceneId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Scene"
+        },
+        {
+          "info": {
+            "name": "Delete a Scene",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.smartthings.com/v1/scenes/:sceneId",
+            "params": [
+              {
+                "name": "sceneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a Scene"
+        },
+        {
+          "info": {
+            "name": "Execute a Scene",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/scenes/:sceneId/execute",
+            "params": [
+              {
+                "name": "sceneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Execute a Scene"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

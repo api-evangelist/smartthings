@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Samsung SmartThings Apps Presentations API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Presentations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a Device Presentation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/presentation",
+            "params": [
+              {
+                "name": "presentationId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "manufacturerName",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get a Device Presentation"
+        },
+        {
+          "info": {
+            "name": "Get a Device Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/presentation/deviceconfig",
+            "params": [
+              {
+                "name": "presentationId",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get a Device Configuration"
+        },
+        {
+          "info": {
+            "name": "Create a Device Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/presentation/deviceconfig",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Device Configuration"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

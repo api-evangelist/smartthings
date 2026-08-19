@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Samsung SmartThings Apps Installed Apps API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Installed Apps",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Installed Apps",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/installedapps",
+            "params": [
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Installed Apps"
+        },
+        {
+          "info": {
+            "name": "Get an Installed App",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              }
+            ]
+          },
+          "docs": "Get an Installed App"
+        },
+        {
+          "info": {
+            "name": "Delete an Installed App",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              }
+            ]
+          },
+          "docs": "Delete an Installed App"
+        },
+        {
+          "info": {
+            "name": "List an Installed App's Configurations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/configs",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              }
+            ]
+          },
+          "docs": "List an Installed App's Configurations"
+        },
+        {
+          "info": {
+            "name": "Create Installed App Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/events",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create Installed App Events"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

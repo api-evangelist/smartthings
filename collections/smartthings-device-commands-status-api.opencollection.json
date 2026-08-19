@@ -1,0 +1,144 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Samsung SmartThings Apps Device Commands & Status API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Device Commands & Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute Commands on a Device",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/commands",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the device."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes one or more capability commands on a device (up to 10 commands per request)."
+        },
+        {
+          "info": {
+            "name": "Create Device Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/events",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the device."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates one or more state events for a device (up to 50 per request), typically for cloud-connected or virtual devices."
+        },
+        {
+          "info": {
+            "name": "Get the Full Status of a Device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/status",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the device."
+              }
+            ]
+          },
+          "docs": "Get the Full Status of a Device"
+        },
+        {
+          "info": {
+            "name": "Get the Status of a Device Component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/components/:componentId/status",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the device."
+              },
+              {
+                "name": "componentId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the device component (e.g. main)."
+              }
+            ]
+          },
+          "docs": "Get the Status of a Device Component"
+        },
+        {
+          "info": {
+            "name": "Get the Status of a Capability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/components/:componentId/capabilities/:capabilityId/status",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the device."
+              },
+              {
+                "name": "componentId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the device component (e.g. main)."
+              },
+              {
+                "name": "capabilityId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get the Status of a Capability"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

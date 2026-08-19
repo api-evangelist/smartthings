@@ -1,0 +1,133 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Samsung SmartThings Apps Subscriptions API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List an Installed App's Subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/subscriptions",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              }
+            ]
+          },
+          "docs": "List an Installed App's Subscriptions"
+        },
+        {
+          "info": {
+            "name": "Create a Subscription for an Installed App",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/subscriptions",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Subscription for an Installed App"
+        },
+        {
+          "info": {
+            "name": "Delete All of an Installed App's Subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/subscriptions",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              }
+            ]
+          },
+          "docs": "Delete All of an Installed App's Subscriptions"
+        },
+        {
+          "info": {
+            "name": "Get a Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/subscriptions/:subscriptionId",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              },
+              {
+                "name": "subscriptionId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Subscription"
+        },
+        {
+          "info": {
+            "name": "Delete a Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/subscriptions/:subscriptionId",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              },
+              {
+                "name": "subscriptionId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a Subscription"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

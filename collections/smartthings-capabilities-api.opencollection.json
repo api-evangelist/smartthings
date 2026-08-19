@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Samsung SmartThings Apps Capabilities API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Capabilities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Capabilities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/capabilities"
+          },
+          "docs": "List Capabilities"
+        },
+        {
+          "info": {
+            "name": "Get a Capability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/capabilities/:capabilityId/:capabilityVersion",
+            "params": [
+              {
+                "name": "capabilityId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "capabilityVersion",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Capability"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

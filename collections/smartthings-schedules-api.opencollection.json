@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Samsung SmartThings Apps Schedules API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Schedules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Schedules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/schedules",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              }
+            ]
+          },
+          "docs": "List Schedules"
+        },
+        {
+          "info": {
+            "name": "Create a Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/schedules/:scheduleName",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              },
+              {
+                "name": "scheduleName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Schedule"
+        },
+        {
+          "info": {
+            "name": "Delete a Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.smartthings.com/v1/installedapps/:installedAppId/schedules/:scheduleName",
+            "params": [
+              {
+                "name": "installedAppId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the installed app."
+              },
+              {
+                "name": "scheduleName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a Schedule"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

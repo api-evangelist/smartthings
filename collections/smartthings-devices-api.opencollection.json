@@ -1,0 +1,142 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Samsung SmartThings Apps Devices API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Devices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Devices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/devices",
+            "params": [
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "capability",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists the devices accessible to the authenticated principal, optionally filtered by location, capability, or type."
+        },
+        {
+          "info": {
+            "name": "Install a Device",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartthings.com/v1/devices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Installs (creates) a device, for example a virtual or cloud-connected device."
+        },
+        {
+          "info": {
+            "name": "Get the Description of a Device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the device."
+              }
+            ]
+          },
+          "docs": "Get the Description of a Device"
+        },
+        {
+          "info": {
+            "name": "Update a Device",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the device."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Device"
+        },
+        {
+          "info": {
+            "name": "Delete a Device",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the device."
+              }
+            ]
+          },
+          "docs": "Delete a Device"
+        },
+        {
+          "info": {
+            "name": "Get the Health State of a Device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartthings.com/v1/devices/:deviceId/health",
+            "params": [
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the device."
+              }
+            ]
+          },
+          "docs": "Get the Health State of a Device"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
