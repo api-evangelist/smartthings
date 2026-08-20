@@ -43,6 +43,8 @@ apis:
   humanURL: https://developer.smartthings.com/docs/devices/device-basics
   baseURL: https://api.smartthings.com/v1
   tags:
+  - Application
+  tags_raw:
   - Apps
   properties:
   - type: OpenAPI
@@ -571,6 +573,8 @@ apis:
   humanURL: https://developer.smartthings.com/docs/devices/device-basics
   baseURL: https://api.smartthings.com/v1
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
