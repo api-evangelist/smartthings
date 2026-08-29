@@ -13,6 +13,18 @@ description: Samsung SmartThings is a smart-home IoT platform for connecting,
   swagger.api.smartthings.com/public/st-api.yml. Event delivery is push-based
   over HTTP webhooks (SmartApp lifecycle callbacks and the Enterprise Eventing
   API sinks/subscriptions), not a public WebSocket.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
