@@ -322,6 +322,8 @@ apis:
   humanURL: https://developer.smartthings.com/docs/devices/device-basics
   baseURL: https://api.smartthings.com/v1
   tags:
+  - Location
+  tags_raw:
   - Locations
   properties:
   - type: OpenAPI
@@ -542,6 +544,8 @@ apis:
   humanURL: https://developer.smartthings.com/docs/devices/device-basics
   baseURL: https://api.smartthings.com/v1
   tags:
+  - Schedule
+  tags_raw:
   - Schedules
   properties:
   - type: OpenAPI
