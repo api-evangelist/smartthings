@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Samsung SmartThings Apps Locations API
-  description: 'The SmartThings API is the RESTful core of the SmartThings smart-home IoT platform. It is used to control devices, read device status, manage Locations, Rooms, and Modes, build Automations with Rules and Scenes, inspect Capabilities, and build SmartApps (Apps and Installed Apps) that subscribe to events and run Schedules. Requests are authenticated with a Personal Access Token (PAT) for testing or an OAuth 2.0 access token for production integrations, passed as `Authorization: Bearer {token}`. This document is grounded in the official SmartThings Swagger definition (https://swagger.api.smartthings.com/public/st-api.yml); some less-common endpoints (Apps, History, Virtual Devices, individual Subscription operations) are modeled from the public docs and SDK where a full path was not directly confirmed.'
+  title: Samsung SmartThings Locations API
+  description: The SmartThings API is the RESTful core of the SmartThings smart-home IoT platform.
   version: '1.0'
   contact:
     name: SmartThings Developers
@@ -191,15 +191,42 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    LocationId:
-      name: locationId
-      in: path
-      required: true
-      description: The identifier of the location.
-      schema:
-        type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: The request violated a platform guardrail or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    LocationInput:
+      type: object
+      required:
+      - name
+      - countryCode
+      properties:
+        name:
+          type: string
+        countryCode:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        temperatureScale:
+          type: string
     Error:
       type: object
       properties:
@@ -217,22 +244,6 @@ components:
               items:
                 type: object
                 additionalProperties: true
-    LocationInput:
-      type: object
-      required:
-      - name
-      - countryCode
-      properties:
-        name:
-          type: string
-        countryCode:
-          type: string
-        latitude:
-          type: number
-        longitude:
-          type: number
-        temperatureScale:
-          type: string
     Location:
       type: object
       properties:
@@ -250,25 +261,14 @@ components:
           type: string
         timeZoneId:
           type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnprocessableEntity:
-      description: The request violated a platform guardrail or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    LocationId:
+      name: locationId
+      in: path
+      required: true
+      description: The identifier of the location.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

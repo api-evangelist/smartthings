@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Samsung SmartThings Apps Schedules API
-  description: 'The SmartThings API is the RESTful core of the SmartThings smart-home IoT platform. It is used to control devices, read device status, manage Locations, Rooms, and Modes, build Automations with Rules and Scenes, inspect Capabilities, and build SmartApps (Apps and Installed Apps) that subscribe to events and run Schedules. Requests are authenticated with a Personal Access Token (PAT) for testing or an OAuth 2.0 access token for production integrations, passed as `Authorization: Bearer {token}`. This document is grounded in the official SmartThings Swagger definition (https://swagger.api.smartthings.com/public/st-api.yml); some less-common endpoints (Apps, History, Virtual Devices, individual Subscription operations) are modeled from the public docs and SDK where a full path was not directly confirmed.'
+  title: Samsung SmartThings Schedules API
+  description: The SmartThings API is the RESTful core of the SmartThings smart-home IoT platform.
   version: '1.0'
   contact:
     name: SmartThings Developers
@@ -79,32 +79,20 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    InstalledAppId:
-      name: installedAppId
-      in: path
-      required: true
-      description: The identifier of the installed app.
-      schema:
-        type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        requestId:
-          type: string
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            details:
-              type: array
-              items:
-                type: object
-                additionalProperties: true
     Schedule:
       type: object
       properties:
@@ -126,19 +114,31 @@ components:
           properties:
             time:
               type: integer
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        requestId:
+          type: string
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+  parameters:
+    InstalledAppId:
+      name: installedAppId
+      in: path
+      required: true
+      description: The identifier of the installed app.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Samsung SmartThings Apps Virtual Devices API
-  description: 'The SmartThings API is the RESTful core of the SmartThings smart-home IoT platform. It is used to control devices, read device status, manage Locations, Rooms, and Modes, build Automations with Rules and Scenes, inspect Capabilities, and build SmartApps (Apps and Installed Apps) that subscribe to events and run Schedules. Requests are authenticated with a Personal Access Token (PAT) for testing or an OAuth 2.0 access token for production integrations, passed as `Authorization: Bearer {token}`. This document is grounded in the official SmartThings Swagger definition (https://swagger.api.smartthings.com/public/st-api.yml); some less-common endpoints (Apps, History, Virtual Devices, individual Subscription operations) are modeled from the public docs and SDK where a full path was not directly confirmed.'
+  title: Samsung SmartThings Virtual Devices API
+  description: The SmartThings API is the RESTful core of the SmartThings smart-home IoT platform.
   version: '1.0'
   contact:
     name: SmartThings Developers
@@ -75,7 +75,25 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    DeviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: The identifier of the device.
+      schema:
+        type: string
   schemas:
+    DeviceList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Device'
+        _links:
+          type: object
+          additionalProperties: true
     Error:
       type: object
       properties:
@@ -93,16 +111,6 @@ components:
               items:
                 type: object
                 additionalProperties: true
-    DeviceList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Device'
-        _links:
-          type: object
-          additionalProperties: true
     Device:
       type: object
       properties:
@@ -132,14 +140,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    DeviceId:
-      name: deviceId
-      in: path
-      required: true
-      description: The identifier of the device.
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http

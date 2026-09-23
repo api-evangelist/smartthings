@@ -1,20 +1,7 @@
 {
   "provider": "smartthings",
   "sources": [
-    "smartthings-apps-api-openapi.yml",
-    "smartthings-capabilities-api-openapi.yml",
-    "smartthings-device-commands-status-api-openapi.yml",
-    "smartthings-devices-api-openapi.yml",
-    "smartthings-history-api-openapi.yml",
-    "smartthings-installed-apps-api-openapi.yml",
-    "smartthings-locations-api-openapi.yml",
-    "smartthings-presentations-api-openapi.yml",
-    "smartthings-rooms-api-openapi.yml",
-    "smartthings-rules-api-openapi.yml",
-    "smartthings-scenes-api-openapi.yml",
-    "smartthings-schedules-api-openapi.yml",
-    "smartthings-subscriptions-api-openapi.yml",
-    "smartthings-virtual-devices-api-openapi.yml"
+    "_original/smartthings-openapi.yml"
   ],
   "outputs": [
     "smartthings-apps-api-openapi.yml",
@@ -35,6 +22,25 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "smartthings-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "smartthings-apps-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-capabilities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-device-commands-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-devices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-history-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-installed-apps-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-locations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-presentations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-rooms-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-rules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-scenes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-schedules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-subscriptions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartthings-virtual-devices-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
