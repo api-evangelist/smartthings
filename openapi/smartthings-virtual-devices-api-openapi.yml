@@ -75,15 +75,29 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    DeviceId:
-      name: deviceId
-      in: path
-      required: true
-      description: The identifier of the device.
-      schema:
-        type: string
   schemas:
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        name:
+          type: string
+        label:
+          type: string
+        locationId:
+          type: string
+        roomId:
+          type: string
+        deviceTypeName:
+          type: string
+        type:
+          type: string
+        components:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
     DeviceList:
       type: object
       properties:
@@ -111,28 +125,6 @@ components:
               items:
                 type: object
                 additionalProperties: true
-    Device:
-      type: object
-      properties:
-        deviceId:
-          type: string
-        name:
-          type: string
-        label:
-          type: string
-        locationId:
-          type: string
-        roomId:
-          type: string
-        deviceTypeName:
-          type: string
-        type:
-          type: string
-        components:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
   responses:
     Unauthorized:
       description: Missing or invalid access token.
@@ -140,6 +132,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    DeviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: The identifier of the device.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

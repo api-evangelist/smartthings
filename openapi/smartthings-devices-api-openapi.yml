@@ -150,34 +150,29 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    DeviceId:
-      name: deviceId
-      in: path
-      required: true
-      description: The identifier of the device.
-      schema:
-        type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnprocessableEntity:
-      description: The request violated a platform guardrail or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        name:
+          type: string
+        label:
+          type: string
+        locationId:
+          type: string
+        roomId:
+          type: string
+        deviceTypeName:
+          type: string
+        type:
+          type: string
+        components:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
     DeviceList:
       type: object
       properties:
@@ -205,28 +200,33 @@ components:
               items:
                 type: object
                 additionalProperties: true
-    Device:
-      type: object
-      properties:
-        deviceId:
-          type: string
-        name:
-          type: string
-        label:
-          type: string
-        locationId:
-          type: string
-        roomId:
-          type: string
-        deviceTypeName:
-          type: string
-        type:
-          type: string
-        components:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
+  responses:
+    UnprocessableEntity:
+      description: The request violated a platform guardrail or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    DeviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: The identifier of the device.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http
