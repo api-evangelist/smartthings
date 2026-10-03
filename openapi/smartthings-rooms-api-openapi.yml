@@ -135,13 +135,6 @@ components:
       schema:
         type: string
   schemas:
-    RoomInput:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
     Error:
       type: object
       properties:
@@ -159,6 +152,13 @@ components:
               items:
                 type: object
                 additionalProperties: true
+    RoomInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
     Room:
       type: object
       properties:

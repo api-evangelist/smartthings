@@ -140,7 +140,29 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Scene:
+      type: object
+      properties:
+        sceneId:
+          type: string
+        sceneName:
+          type: string
+        locationId:
+          type: string
     Error:
       type: object
       properties:
@@ -158,28 +180,6 @@ components:
               items:
                 type: object
                 additionalProperties: true
-    Scene:
-      type: object
-      properties:
-        sceneId:
-          type: string
-        sceneName:
-          type: string
-        locationId:
-          type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

@@ -138,7 +138,38 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    DeviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: The identifier of the device.
+      schema:
+        type: string
+    ComponentId:
+      name: componentId
+      in: path
+      required: true
+      description: The identifier of the device component (e.g. main).
+      schema:
+        type: string
   schemas:
+    CommandResults:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              status:
+                type: string
+                enum:
+                - ACCEPTED
+                - COMPLETED
+                - FAILED
     CommandsRequest:
       type: object
       required:
@@ -162,22 +193,6 @@ components:
               arguments:
                 type: array
                 items: {}
-    CommandResults:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              status:
-                type: string
-                enum:
-                - ACCEPTED
-                - COMPLETED
-                - FAILED
     Error:
       type: object
       properties:
@@ -196,33 +211,18 @@ components:
                 type: object
                 additionalProperties: true
   responses:
-    Unauthorized:
-      description: Missing or invalid access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    ComponentId:
-      name: componentId
-      in: path
-      required: true
-      description: The identifier of the device component (e.g. main).
-      schema:
-        type: string
-    DeviceId:
-      name: deviceId
-      in: path
-      required: true
-      description: The identifier of the device.
-      schema:
-        type: string
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
