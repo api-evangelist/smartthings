@@ -191,6 +191,25 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: The request violated a platform guardrail or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     LocationInput:
       type: object
@@ -207,23 +226,6 @@ components:
         longitude:
           type: number
         temperatureScale:
-          type: string
-    Location:
-      type: object
-      properties:
-        locationId:
-          type: string
-        name:
-          type: string
-        countryCode:
-          type: string
-        latitude:
-          type: number
-        longitude:
-          type: number
-        temperatureScale:
-          type: string
-        timeZoneId:
           type: string
     Error:
       type: object
@@ -242,25 +244,23 @@ components:
               items:
                 type: object
                 additionalProperties: true
-  responses:
-    UnprocessableEntity:
-      description: The request violated a platform guardrail or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Location:
+      type: object
+      properties:
+        locationId:
+          type: string
+        name:
+          type: string
+        countryCode:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        temperatureScale:
+          type: string
+        timeZoneId:
+          type: string
   parameters:
     LocationId:
       name: locationId

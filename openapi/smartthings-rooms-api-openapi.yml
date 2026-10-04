@@ -126,15 +126,16 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    LocationId:
-      name: locationId
-      in: path
-      required: true
-      description: The identifier of the location.
-      schema:
-        type: string
   schemas:
+    Room:
+      type: object
+      properties:
+        roomId:
+          type: string
+        locationId:
+          type: string
+        name:
+          type: string
     Error:
       type: object
       properties:
@@ -159,15 +160,14 @@ components:
       properties:
         name:
           type: string
-    Room:
-      type: object
-      properties:
-        roomId:
-          type: string
-        locationId:
-          type: string
-        name:
-          type: string
+  parameters:
+    LocationId:
+      name: locationId
+      in: path
+      required: true
+      description: The identifier of the location.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

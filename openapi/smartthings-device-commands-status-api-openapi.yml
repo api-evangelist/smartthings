@@ -138,6 +138,19 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     DeviceId:
       name: deviceId
@@ -154,22 +167,23 @@ components:
       schema:
         type: string
   schemas:
-    CommandResults:
+    Error:
       type: object
       properties:
-        results:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              status:
-                type: string
-                enum:
-                - ACCEPTED
-                - COMPLETED
-                - FAILED
+        requestId:
+          type: string
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
     CommandsRequest:
       type: object
       required:
@@ -193,36 +207,22 @@ components:
               arguments:
                 type: array
                 items: {}
-    Error:
+    CommandResults:
       type: object
       properties:
-        requestId:
-          type: string
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            details:
-              type: array
-              items:
-                type: object
-                additionalProperties: true
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              status:
+                type: string
+                enum:
+                - ACCEPTED
+                - COMPLETED
+                - FAILED
   securitySchemes:
     bearerAuth:
       type: http
