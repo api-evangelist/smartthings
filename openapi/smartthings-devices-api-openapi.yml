@@ -151,14 +151,14 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    Unauthorized:
-      description: Missing or invalid access token.
+    UnprocessableEntity:
+      description: The request violated a platform guardrail or failed validation.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    UnprocessableEntity:
-      description: The request violated a platform guardrail or failed validation.
+    Unauthorized:
+      description: Missing or invalid access token.
       content:
         application/json:
           schema:
@@ -169,15 +169,29 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    DeviceId:
-      name: deviceId
-      in: path
-      required: true
-      description: The identifier of the device.
-      schema:
-        type: string
   schemas:
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        name:
+          type: string
+        label:
+          type: string
+        locationId:
+          type: string
+        roomId:
+          type: string
+        deviceTypeName:
+          type: string
+        type:
+          type: string
+        components:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
     Error:
       type: object
       properties:
@@ -205,28 +219,14 @@ components:
         _links:
           type: object
           additionalProperties: true
-    Device:
-      type: object
-      properties:
-        deviceId:
-          type: string
-        name:
-          type: string
-        label:
-          type: string
-        locationId:
-          type: string
-        roomId:
-          type: string
-        deviceTypeName:
-          type: string
-        type:
-          type: string
-        components:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
+  parameters:
+    DeviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: The identifier of the device.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

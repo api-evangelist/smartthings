@@ -154,15 +154,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    Scene:
-      type: object
-      properties:
-        sceneId:
-          type: string
-        sceneName:
-          type: string
-        locationId:
-          type: string
     Error:
       type: object
       properties:
@@ -180,6 +171,15 @@ components:
               items:
                 type: object
                 additionalProperties: true
+    Scene:
+      type: object
+      properties:
+        sceneId:
+          type: string
+        sceneName:
+          type: string
+        locationId:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

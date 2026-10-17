@@ -113,20 +113,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    RoomInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
     Room:
       type: object
       properties:
@@ -153,13 +147,6 @@ components:
               items:
                 type: object
                 additionalProperties: true
-    RoomInput:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
   parameters:
     LocationId:
       name: locationId
@@ -168,6 +155,19 @@ components:
       description: The identifier of the location.
       schema:
         type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
