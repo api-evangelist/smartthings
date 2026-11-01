@@ -1,4 +1,4 @@
-# Samsung SmartThings (smartthings)
+# Samsung SmartThings
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,149 +64,150 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Samsung SmartThings is a smart-home IoT platform for connecting, controlling, and automating devices across a home. The SmartThings API is a RESTful interface (base `https://api.smartthings.com/v1`) that lets integrations control devices, read device status, manage Locations, Rooms, and Modes, build Automations with Rules and Scenes, define and inspect Capabilities, and build SmartApps that subscribe to events and run Schedules. Authentication is via a Personal Access Token (PAT) for testing or OAuth 2.0 for production integrations, passed as `Authorization: Bearer {token}`. SmartThings publishes a real OpenAPI/Swagger definition at [swagger.api.smartthings.com/public/st-api.yml](https://swagger.api.smartthings.com/public/st-api.yml).
+Samsung SmartThings is a smart-home IoT platform for connecting, controlling, and automating devices across a home. The SmartThings API is a RESTful interface (base https://api.smartthings.com/v1) that lets integrations control devices, read device status, manage locations, rooms, and modes, build automations with Rules and Scenes, define and inspect capabilities, and build SmartApps that subscribe to events and run schedules. Authentication is via a Personal Access Token (PAT) for testing or OAuth 2.0 for production integrations. SmartThings publishes a real OpenAPI/Swagger definition at swagger.api.smartthings.com/public/st-api.yml. Event delivery is push-based over HTTP webhooks (SmartApp lifecycle callbacks and the Enterprise Eventing API sinks/subscriptions), not a public WebSocket.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/smartthings/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/smartthings/refs/heads/main/apis.yml)
+**Areas:** Smart Home · IoT · Home Automation · Devices · Samsung
 
-## Tags
+## Samsung SmartThings on APIs.io
 
-- Smart Home
-- IoT
-- Home Automation
-- Devices
-- Samsung
+Everything profiled for Samsung SmartThings is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/smartthings/](https://apis.io/providers/smartthings/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (14)
 
-- **Created:** 2026-07-03
-- **Modified:** 2026-07-03
+- [Samsung SmartThings Apps API](https://apis.io/apis/smartthings/smartthings-apps-api/) — SmartApp registrations (Lambda or webhook endpoints).
+- [Samsung SmartThings Capabilities API](https://apis.io/apis/smartthings/smartthings-capabilities-api/) — Standard and custom capability definitions.
+- [Samsung SmartThings Device Commands & Status API](https://apis.io/apis/smartthings/smartthings-device-commands-status-api/) — Execute commands, create events, and read device/component/capability status.
+- [Samsung SmartThings Devices API](https://apis.io/apis/smartthings/smartthings-devices-api/) — Access, control, install, update, and delete devices.
+- [Samsung SmartThings History API](https://apis.io/apis/smartthings/smartthings-history-api/) — Event history for devices and locations.
+- [Samsung SmartThings Installed Apps API](https://apis.io/apis/smartthings/smartthings-installed-apps-api/) — Per-user installations of a SmartApp.
+- [Samsung SmartThings Locations API](https://apis.io/apis/smartthings/smartthings-locations-api/) — Locations (homes) and their Modes.
+- [Samsung SmartThings Presentations API](https://apis.io/apis/smartthings/smartthings-presentations-api/) — Device presentation and configuration metadata.
+- [Samsung SmartThings Rooms API](https://apis.io/apis/smartthings/smartthings-rooms-api/) — Groupings of devices within a Location.
+- [Samsung SmartThings Rules API](https://apis.io/apis/smartthings/smartthings-rules-api/) — Condition/action Automations over connected devices.
+- [Samsung SmartThings Scenes API](https://apis.io/apis/smartthings/smartthings-scenes-api/) — Saved sets of device states that can be executed on demand.
+- [Samsung SmartThings Schedules API](https://apis.io/apis/smartthings/smartthings-schedules-api/) — Future/cron executions for Installed Apps.
+- [Samsung SmartThings Subscriptions API](https://apis.io/apis/smartthings/smartthings-subscriptions-api/) — Event subscriptions for Installed Apps.
+- [Samsung SmartThings Virtual Devices API](https://apis.io/apis/smartthings/smartthings-virtual-devices-api/) — Software devices for testing automations and integrations.
 
-## APIs
+### Published properties
 
-### SmartThings Devices API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-List, install, get, update, and delete the devices connected to a SmartThings account, and read a device's description, components, and health state.
+#### Agentic access (1)
 
-- **Human URL:** [https://developer.smartthings.com/docs/devices/device-basics](https://developer.smartthings.com/docs/devices/device-basics)
-- **Base URL:** `https://api.smartthings.com/v1`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### SmartThings Device Commands & Status API
+- [Smartthings Agentic Access](https://apis.io/agentic-access/smartthings/smartthings-agentic-access/)
 
-Execute capability commands on a device, create device events, and read full device status or the status of a single component or capability.
+#### Collections (15)
 
-- **Human URL:** [https://developer.smartthings.com/docs/devices/commands](https://developer.smartthings.com/docs/devices/commands)
-- **Base URL:** `https://api.smartthings.com/v1`
+Postman and Open Collection request collections.
 
-### SmartThings Locations API
+- [Samsung SmartThings API](https://apis.io/collections/smartthings/open-smartthings/)
+- [Samsung SmartThings Apps API](https://apis.io/collections/smartthings/open-smartthings-apps-api/)
+- [Samsung SmartThings Apps Capabilities API](https://apis.io/collections/smartthings/open-smartthings-capabilities-api/)
+- [Samsung SmartThings Apps Device Commands & Status API](https://apis.io/collections/smartthings/open-smartthings-device-commands-status-api/)
+- [Samsung SmartThings Apps Devices API](https://apis.io/collections/smartthings/open-smartthings-devices-api/)
+- [Samsung SmartThings Apps History API](https://apis.io/collections/smartthings/open-smartthings-history-api/)
+- [Samsung SmartThings Apps Installed Apps API](https://apis.io/collections/smartthings/open-smartthings-installed-apps-api/)
+- [Samsung SmartThings Apps Locations API](https://apis.io/collections/smartthings/open-smartthings-locations-api/)
+- [Samsung SmartThings Apps Presentations API](https://apis.io/collections/smartthings/open-smartthings-presentations-api/)
+- [Samsung SmartThings Apps Rooms API](https://apis.io/collections/smartthings/open-smartthings-rooms-api/)
+- [Samsung SmartThings Apps Rules API](https://apis.io/collections/smartthings/open-smartthings-rules-api/)
+- [Samsung SmartThings Apps Scenes API](https://apis.io/collections/smartthings/open-smartthings-scenes-api/)
+- [Samsung SmartThings Apps Schedules API](https://apis.io/collections/smartthings/open-smartthings-schedules-api/)
+- [Samsung SmartThings Apps Subscriptions API](https://apis.io/collections/smartthings/open-smartthings-subscriptions-api/)
+- [Samsung SmartThings Apps Virtual Devices API](https://apis.io/collections/smartthings/open-smartthings-virtual-devices-api/)
 
-Create, list, get, update, and delete the Locations (homes) that group hubs, devices, and automations, and manage a Location's Modes and current Mode.
+#### Security (3)
 
-- **Human URL:** [https://developer.smartthings.com/docs/locations/locations](https://developer.smartthings.com/docs/locations/locations)
-- **Base URL:** `https://api.smartthings.com/v1`
+Authentication, trust centre, and vulnerability disclosure.
 
-### SmartThings Rooms API
+- [Smartthings Authentication](https://apis.io/security/smartthings/smartthings-authentication/)
+- [Smartthings Domain Security](https://apis.io/security/smartthings/smartthings-domain-security/)
+- [Smartthings Vulnerability Disclosure](https://apis.io/security/smartthings/smartthings-vulnerability-disclosure/)
 
-Create, list, get, update, and delete Rooms, which group devices within a Location.
+#### OAuth scopes (1)
 
-- **Human URL:** [https://developer.smartthings.com/docs/locations/rooms](https://developer.smartthings.com/docs/locations/rooms)
-- **Base URL:** `https://api.smartthings.com/v1`
+The permissions the API asks for.
 
-### SmartThings Scenes API
+- [Smartthings Scopes](https://apis.io/scopes/smartthings/smartthings-scopes/)
 
-Create, list, get, update, delete, and execute Scenes - saved sets of device states that can be triggered on demand.
+#### Plans and pricing (1)
 
-- **Human URL:** [https://developer.smartthings.com/docs/automations/scenes](https://developer.smartthings.com/docs/automations/scenes)
-- **Base URL:** `https://api.smartthings.com/v1`
+Published plans, tiers and prices.
 
-### SmartThings Rules API
+- [Smartthings Plans Pricing](https://apis.io/plans/smartthings/smartthings-plans-pricing/)
 
-Create, list, get, update, delete, and execute Rules - the condition/action Automations that operate on SmartThings connected devices.
+#### Rate limits (1)
 
-- **Human URL:** [https://developer.smartthings.com/docs/automations/rules](https://developer.smartthings.com/docs/automations/rules)
-- **Base URL:** `https://api.smartthings.com/v1`
+Published request limits.
 
-### SmartThings Capabilities API
+- [Smartthings Rate Limits](https://apis.io/rate-limits/smartthings/smartthings-rate-limits/)
 
-List and retrieve standard and custom Capabilities - the typed attributes and commands (switch, temperatureMeasurement, lock, etc.) that describe what a device can do, by capability id and version.
+#### FinOps (1)
 
-- **Human URL:** [https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference](https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference)
-- **Base URL:** `https://api.smartthings.com/v1`
+What the API costs to run, by operation.
 
-### SmartThings Subscriptions API
+- [Smartthings Finops](https://apis.io/finops/smartthings/smartthings-finops/)
 
-Create, list, get, and delete an Installed App's event Subscriptions - filters that determine which device, capability, mode, or device-lifecycle events are delivered to the app's webhook via the EVENT lifecycle callback.
+## Where to find this API
 
-- **Human URL:** [https://developer.smartthings.com/docs/connected-services/subscriptions](https://developer.smartthings.com/docs/connected-services/subscriptions)
-- **Base URL:** `https://api.smartthings.com/v1`
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### SmartThings Schedules API
-
-Create, list, and delete Schedules for an Installed App - once or cron-style future executions that trigger the app's EXECUTE lifecycle callback.
-
-- **Human URL:** [https://developer.smartthings.com/docs/connected-services/schedules](https://developer.smartthings.com/docs/connected-services/schedules)
-- **Base URL:** `https://api.smartthings.com/v1`
-
-### SmartThings Apps API
-
-Register and manage SmartApps - the AWS Lambda or webhook endpoints that implement the SmartThings lifecycle (PING, CONFIGURATION, INSTALL, UPDATE, EVENT, UNINSTALL) - including creating, listing, updating, deleting, and rotating OAuth settings.
-
-- **Human URL:** [https://developer.smartthings.com/docs/connected-services/smartapp-basics](https://developer.smartthings.com/docs/connected-services/smartapp-basics)
-- **Base URL:** `https://api.smartthings.com/v1`
-
-### SmartThings Installed Apps API
-
-List, get, and delete a user's Installed Apps and read their configurations, and create Installed App events - the per-user installations of a SmartApp within a Location.
-
-- **Human URL:** [https://developer.smartthings.com/docs/connected-services/lifecycles](https://developer.smartthings.com/docs/connected-services/lifecycles)
-- **Base URL:** `https://api.smartthings.com/v1`
-
-### SmartThings Presentations API
-
-Generate, create, and retrieve device Presentations and device configurations - the metadata that drives how a device is rendered and controlled in the SmartThings app.
-
-- **Human URL:** [https://developer.smartthings.com/docs/devices/device-presentation](https://developer.smartthings.com/docs/devices/device-presentation)
-- **Base URL:** `https://api.smartthings.com/v1`
-
-### SmartThings History API
-
-Query the paginated event History for devices and locations - the time-ordered record of device state changes and events.
-
-- **Human URL:** [https://developer.smartthings.com/docs/devices/device-history](https://developer.smartthings.com/docs/devices/device-history)
-- **Base URL:** `https://api.smartthings.com/v1`
-
-### SmartThings Virtual Devices API
-
-Create and manage Virtual Devices and push events to them - software devices with prototype or standard profiles used for testing automations and integrations without physical hardware.
-
-- **Human URL:** [https://developer.smartthings.com/docs/devices/virtual-devices](https://developer.smartthings.com/docs/devices/virtual-devices)
-- **Base URL:** `https://api.smartthings.com/v1`
-
-## Authentication
-
-- **Personal Access Token (PAT):** generate at [account.smartthings.com/tokens](https://account.smartthings.com/tokens) with the scopes you need (for testing / personal use).
-- **OAuth 2.0:** create an OAuth-In App via the SmartThings CLI, then use `https://api.smartthings.com/oauth/authorize` and exchange the code at `https://api.smartthings.com/oauth/token` (for production integrations).
-
-All requests pass the token as `Authorization: Bearer {token}`.
-
-## Eventing
-
-SmartThings does not expose a documented public WebSocket API. Real-time events are delivered outbound over HTTP webhooks: a SmartApp creates Subscriptions and receives matching events via the EVENT lifecycle callback POSTed to its endpoint, and the Enterprise Eventing API lets service accounts register account-level webhook "sinks." See [review.yml](review.yml) for the full WebSocket assessment.
-
-## Rate Limits
-
-The API applies per-endpoint rate limits and platform guardrails per token / per app / per device. Responses carry `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers. Exceeding a rate limit returns HTTP 429; exceeding a guardrail returns HTTP 422. See [rate-limits/smartthings-rate-limits.yml](rate-limits/smartthings-rate-limits.yml).
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/SmartThingsCommunity)
-- [LinkedIn](https://www.linkedin.com/showcase/smartthings)
 - [Website](https://www.smartthings.com)
 - [Documentation](https://developer.smartthings.com/docs)
-- [Plans](plans/smartthings-plans-pricing.yml)
-- [Rate Limits](rate-limits/smartthings-rate-limits.yml)
-- [Fin Ops](finops/smartthings-finops.yml)
+- [GitHub](https://github.com/SmartThingsCommunity)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 26.2** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 40.2 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 29.8 |
+| Access clarity | 5.3 |
+
+**Agent readiness 20.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | documented (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 27.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/smartthings/](https://apis.io/providers/smartthings/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Samsung SmartThings: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/smartthings/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
